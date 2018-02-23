@@ -1,0 +1,43 @@
+{% extends "wxbase.html" %}
+
+{% block mainbody %}
+
+<div class="page-header" id="blog">
+
+    <div class="col-md-8">
+        <div class="blog-post">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>
+
+                        {{ newsinfo_table.Newstitle }}
+
+                    </h2>
+                    <h4>Created by: {{ newsinfo_table.NewsCreatetime }} </h4>
+                    <p>
+
+                        {{ newsinfo_table.Newsbody | safe }}
+
+
+                    </p>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+                    <div class="row">
+                    <div class="col-md-4">
+                        <!-- <img class="img-responsive" src="images/image10.jpg" style="padding-top:20px;"> -->
+                        <br>
+                        <h2 class="text-primary">Categories</h2>
+                        <br>
+                        {% for newscls_info in newscls_table %}
+                        <p class="text-primary"><i class="fa fa-arrow-right" aria-hidden="true",name="{{ newscls_info.id }}"></i>&nbsp; &nbsp;{{ newscls_info.Nclassname }}</p>
+                        {% endfor %}
+                        <br>
+                    </div>
+
+    </div>
+</div>
+{% endblock %}

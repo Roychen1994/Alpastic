@@ -1,0 +1,71 @@
+{% extends "wxbase.html" %}
+
+{% block mainbody %}
+
+<div class="row ">
+	<form role="form" action="" method="post" class="search-form">
+		<div class="col-lg-4 col-center-block">
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="请输入搜索关键词">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div>
+	</form>
+</div>
+
+
+
+<div>
+<table id="table-no-resize" >
+		<thead>
+		  <tr>
+			<th>类型</th>
+			<th>名称</th>
+			<th>厚度</th>
+			<th>尺寸</th>
+			<th>环保等级</th>
+			<th>单位</th>
+			<th>单价</th>
+			<th>每件数量</th>
+			<th>库存</th>
+			<th>操作</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for clskey,clsvalue in commodity_rdit.items %}
+			{% for mkey,mvalue in clsvalue.items %}
+				{% for dinfo in mvalue %}
+		  <tr>
+			<td data-th="Type_name"><span class="bt-content"><div>{{ clskey }}</div></span></td>
+			<td data-th="Name"><span class="bt-content"><a href="#">{{ mkey }}</a></span></td>
+			<td data-th="Spec"><span class="bt-content">{{ dinfo.CodSpec }}</span></td>
+			<td data-th="Unit"><span class="bt-content">{{ dinfo.CodUnit }}</span></td>
+			<td data-th="unPrice"><span class="bt-content" style="color:indianred">￥{{ dinfo.CodunPrice }}</span></td>
+			<td data-th="unNum"><span class="bt-content">{{ dinfo.CodUnmun }}</span></td>
+			<td data-th="inventory"><span class="bt-content">{{ dinfo.Codinventory }}</span></td>
+			<td data-th="operate"><span class="bt-content"></span></td>
+		  </tr>
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
+		  <!-- <tr>
+			<td data-th="Name"><span class="bt-content">John Stone</span></td>
+			<td data-th="Age"><span class="bt-content">30</span></td>
+			<td data-th="Gender"><span class="bt-content">Male</span></td>
+			<td data-th="Height"><span class="bt-content">5'9</span></td>
+			<td data-th="Province"><span class="bt-content">Ontario</span></td>
+			<td data-th="Sport"><span class="bt-content">Badminton</span></td>
+		  </tr> -->
+
+		</tbody>
+	  </table>
+</div>
+
+	{% load static %}
+	<link href="{% static "shopstyle.css" %}" rel="stylesheet">
+
+{% endblock %}
+
+
