@@ -10,7 +10,7 @@ _numbers = ''.join(map(str, range(3, 10)))  # 数字
 init_chars = ''.join((_letter_cases, _upper_cases, _numbers))
 
 
-def create_validate_code(size=(140, 45),
+def create_validate_code(size=(120, 30),
                          chars=init_chars,
                          img_type="GIF",
                          mode="RGB",

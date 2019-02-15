@@ -3,108 +3,60 @@
 {% block mainbody %}
 
 <div class="page-header" id="blog">
-    <div class="row">
-    <div class="col-sm-2">
-        <div class="list-group">
-            <a href="#" class="list-group-item active">
-                新闻分类
-            </a>
-            {% for newscls in newscls_table %}
-                <a href="/mainnews/{{ newscls.id }}" class="list-group-item" >{{ newscls.Nclassname }}</a>
-            {% endfor %}
-        </div>
-    </div>
-
-
-    <div class="col-sm-7">
-        {% load static %}
-        <div>
-            <div class="row">
-                <div class="col-xs-12">
-                    {% if newslist_table %}
-                        {% for news_info in newslist_table %}
-                            <div class="panel panel-default newsrow">
-                                <div class="panel-body">
-                                    <h4 class="text-primary"><a href="/news/{{ news_info.id }}">[ {{ news_info.Newsclassid }} ] {{ news_info.Newstitle }}</a></h4>
-                                    <small><span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ news_info.NewsCreatetime }}</small>
-                                    <div class="row">
-                                        {% if news_info.Newsimage %}
-                                            <div class="col-sm-3">
-                                                <img src="{{ news_info.Newsimage.url }}" alt="{{ news_info.Newstitle }}" class="img-rounded">
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <p>
-                                                    {{ news_info.Newsabstract | truncatechars:100 }}
-                                                </p>
-                                            </div>
-                                         {% else %}
-                                            <div class="col-sm-12">
-                                                <p>
-                                                    {{ news_info.Newsabstract | truncatechars:100 }}
-                                                </p>
-                                            </div>
-                                        {% endif %}
-                                    </div>
+                    <div class="col-md-8">
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    {% if newslist_table %}
+                                    {% for news_info in newslist_table %}
+                                    <h3 class="text-primary"><a href="/news/{{ news_info.id }}">[ {{ news_info.Newsclassid }} ] {{ news_info.Newstitle }}</a></h3>
+                                    <p class="text-justify">
+                                        {{ news_info.Newsbody | truncatechars:100 }}
+                                    </p>
+                                    <!-- button class="btn btn-default" type="button" style="background-color: #4B4B4B; color: #fff;">MORE</button> -->
+                                    <!-- <div class="text-center">
+                                        <a href="#"><span class="glyphicon glyphicon-plus"></span>Full Story</a>&nbsp; &nbsp; &nbsp;
+                                        <a href="#"><span class="glyphicon glyphicon-comment"></span>12 Comments</a>&nbsp; &nbsp; &nbsp;
+                                        <a href="#"><span class="glyphicon glyphicon-share"></span>11 Shares</a>
+                                    </div> -->
+                                    {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% endif %}
+                        </div>
+                        {% if max_page != 0 %}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                            <li>
+                                <a href="?page={{ page_previous }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                </a>
+                                </li>
+                                {% for ipage in page_no %}
+                                <li><a href="?page={{ ipage }}">{{ ipage }}</a></li>
+                                {% endfor %}
+                                <li>
+                                <a href="?page={{ page_next }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            </ul>
+                        </nav>
+                        {% endif %}
+                    </div>
 
+                    <div class="row">
+                    <div class="col-md-4">
+                        <!-- <img class="img-responsive" src="images/image10.jpg" style="padding-top:20px;"> -->
+                        <div class="list-group">
+                            <a href="#" class="list-group-item disabled">
+                                新闻分类
+                            </a>
+                            {% for newscls in newscls_table %}
+                            <a href="/mainnews/{{ newscls.id }}" class="list-group-item" >{{ newscls.Nclassname }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
-        {% if max_page != 0 %}
-            <nav aria-label="Page navigation" class="mypagination">
-                <ul class="pagination">
-                    <li>
-                        <a href="?page={{ page_previous }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    {% for ipage in page_no %}
-                        <li><a href="?page={{ ipage }}">{{ ipage }}</a></li>
-                    {% endfor %}
-                    <li>
-                        <a href="?page={{ page_next }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        {% endif %}
-    </div>
-</div>
-    <div class="col-sm-2">
-        <div class="col-sm-offset-2">
-            <h4><strong>热销产品</strong></h4>
-            <div class="row">
-                {% for hot_product in hot_list %}
-                    <div>
-                        <div class="thumbnail">
-                            <img  src="{{ hot_product.info.Commimg|cut:"HdWxShop" }}" alt="">
-                        </div>
-                        <div class="caption">
-                            <a href="/shop/product/{{ hot_product.detail.id }}"><h5><strong>{{ hot_product.info.CommName }}</strong></h5></a>
-                            <p class="text-right">
-                                <h5>
-                                    <strong class="unprice">￥{{ hot_product.detail.CodunPrice }}</strong>
-                                    <small>(库存:{{ hot_product.detail.Codinventory }})</small>
-                                </h5>
-                            </p>
-                        </div>
-                        </div>
-                    {% endfor %}
-            </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        onload=function(){
-            navfooteractive('nav-newsicon');
-            fresh_amount();
-        }
-    </script>
 {% endblock %}
-

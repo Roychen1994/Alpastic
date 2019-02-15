@@ -3,7 +3,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import fields, widgets
 
-from . import models
 
 
 class Registeruser(forms.Form):
@@ -66,6 +65,7 @@ class Registeruser(forms.Form):
 
 
 class weblogin(forms.Form):
+
     username = fields.CharField(
         required = True,
         widget = widgets.TextInput(attrs={'class': "form-control", 'placeholder': '请输入用户名'}),
@@ -94,33 +94,5 @@ class weblogin(forms.Form):
         }
 
     )
-
-    remember_me = fields.CharField(
-        required=False,
-        widget = widgets.CheckboxInput(attrs={"class":"checkbox"})
-    )
-
-# 商品管理Form
-class createproduct(forms.Form):
-    pclass_select = forms.ModelMultipleChoiceField(
-        widget=widgets.Select,
-        queryset=models.commodityclass.objects.all()
-    )
-
-    productname = fields.CharField(
-        required=True,
-        widget = widgets.TextInput(),
-        min_length = 1,
-        max_length = 100,
-        error_messages = {
-            'required':'商品名称不能为空',
-            'max_length':'名词长度不能超过100个字符',
-            'min_length':'名词长度不能小于1个字符',
-        }
-    )
-
-    productimage = fields.ImageField(required=True,)
-    productinfo  = fields.ImageField(required=True,)
-
 
 

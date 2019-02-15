@@ -1,267 +1,70 @@
 {% extends "wxbase.html" %}
+
 {% block mainbody %}
 
-<select id="freshed" data-live-search="true" style="display: none">
-    <option value="no" selected></option>
-    <option id="freshedyes" value="yes"></option>
-</select>
-
-<div class="row">
-    <div class="col-sm-offset-4 col-sm-4">
-    <div class="row">
-    	<form role="form" action="" method="get" class="search-form">
-    		    <div class="input-group">
-                    {% if get_search %}
-    		    	    <input name="search" type="text" class="form-control" placeholder="请输入搜索关键词" value="{{ get_search }}">
-                    {% else %}
-                        <input name="search" type="text" class="form-control" placeholder="请输入搜索关键词" value="">
-                    {% endif %}
-    				<span class="input-group-btn">
-    		        	<button id="btn_search" class="btn btn-default" type="button" onclick="get_productdata(1,{{ commcls.id }})"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        <button class="btn btn-default" type="button" onclick="window.location.href='/shop/'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-    		        </span>
-    		    </div><!-- /input-group -->
-    	</form>
-    </div>
-    </div>
-</div>
-<!-------------- 可选择部分 ---------------->
-    <div class="col-sm-10 col-sm-offset-1">
-	{% csrf_token %}
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div>
-	            <ul id="ul-pcls" class="nav nav-pills">
-                    <li class="disabled"><a><strong>类型:</strong></a></li>
-                    <li class="active" value="" id="li-"><a href="#">全部</a></li>
-	    	    	{% for commcls in classes %}
-                        <li value="{{ commcls.id }}" id="li-{{ commcls.id }}"><a href="#">{{ commcls.CclassName }}</a></li>
-	    	        {% endfor %}
-	            </ul>
-            </div>
-            <div>
-                <ul id='ul-brand' class="nav nav-pills">
-                    <li class="disabled"><a><strong>品牌:</strong></a></li>
-                    <li class="active" value=""><a>全部</a></li>
-                    {% for brank in brand_options %}
-                        {% if brank.Codbrand %}
-                            <li value="{{ brank.Codbrand }}"><a>{{ brank.Codbrand }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            <div>
-                <ul id='ul-function' class="nav nav-pills">
-                    <li class="disabled"><a><strong>功能:</strong></a></li>
-                    <li class="active" value=""><a>全部</a></li>
-                    {% for function in function_options %}
-                        {% if function.Codfunction %}
-                            <li value="{{ function.Codfunction }}"><a>{{ function.Codfunction }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!----   --->
-    <div class="row">
-        <div class="col-sm-offset-9 col-sm-3">
-            <div class="btn-group btn-group-justified" role="group" aria-label="">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        价格排序<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li id="unprice-sort" onclick="get_productdata('{{ details_Paginator.previous_page_number }}','{{ pcls }}','unprice','1')">
-                            <a><span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>&nbsp&nbsp由低到高</a>
-                        </li>
-                        <li id="unprice-sorted" onclick="get_productdata('{{ details_Paginator.previous_page_number }}','{{ pcls }}','unprice','2')">
-                            <a><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>&nbsp&nbsp由高到低</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="btn-group" role="group">
-                    <button class="btn btn-primary" role="button" data-toggle="collapse" href="#otherhide" aria-expanded="false" aria-controls="otherhide">
-                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>&nbsp&nbsp高级搜索
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--------- 高级筛选  ---------->
-    <div id="otherhide" {% if thick or psize or protlevel %}
-                class="collapse in"
-            {% else %}
-                class="collapse"
-            {% endif %}>
-        <div>
-            <div class="panel panel-default mtop" style="background:#f5f5f5;">
-                <div class="panel-body">
-                    <form class="form-inline">
-                        <div class="row">
-                            <div class="form-group col-sm-3">
-                                <label class="control-label" for="thick">厚度:</label>
-                                <select class="selectpicker" id="thick" name="thick" data-live-search="true">
-                                    <option value="">全部</option>
-                                    {% for athick in thick_options %}
-                                        <option value="{{ athick.Codthick }}">{{ athick.Codthick }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-3">
-                                <label class="control-label" for="psize">尺寸:</label>
-                                <select  class="selectpicker" id="psize" name="psize" data-live-search="true">
-                                    <option value="">全部</option>
-                                    {% for asize in size_options %}
-                                        <option value="{{ asize.CodSize }}">{{ asize.CodSize }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label class="control-label" for="protlevel">环保等级:</label>
-                                <select class="selectpicker" id="protlevel" name="protlevel" data-live-search="true">
-                                    <option value="">全部</option>
-                                    {% for aprotlevel in protlevel_options %}
-                                        <option value="{{ aprotlevel.Cod_Protlevel }}">{{ aprotlevel.Cod_Protlevel }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-sm-1">
-                                <button id="btn_select" type="button" class="btn btn-default" onclick="get_productdata(1,{{ commcls.id }})">搜索</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-
-
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <div class="panel panel-default mtop">
-            <div id="shopinfo" class="panel-body">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<!----------------- buyModal 模态框 ------------------->
-<div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
-      </div>
-      <div class="modal-body">
-		<div class="row">
-			<div class="col-sm-5">
-				<img id="modal-img" class="img-thumbnail" src="" style="width: 460px">
-			</div>
-			<div class="col-sm-7">
-				<p id="p-uprice" class="price"></p>
-                <p id="p-thick"></p>
-                <p id="p-size"></p>
-                <p id="p-protlevel"></p>
-                <p id="p-nmun"></p>
-				<form class="form-inline">
-					<div class="form-group">
-							<label for="productnum" class="control-label">购入数量:</label>
-							<input type="text" class="form-control numinput" id="productnum" value="1">
-					</div>
-				</form>
-			</div>
-		</div>
-        <div id="errorinfo" style="display:none;">
-
-        </div>
-      <div class="modal-footer">
-          <div class="row">
-              <div class="col-sm-4">
-                  <p class="toatl-price"><small>合计:￥&nbsp&nbsp</small><strong id="h3-total" style="color:indianred"></strong></p>
-              </div>
-              <div class="col-sm-8">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                  <button id="btn_addshoppingcart" type="button" dataid="" class="btn btn-primary" onclick="ajax_addshopingcart(this,'buy')">加入购物车</button>
-              </div>
-          </div>
-      </div>
-	 </div>
-    </div>
-  </div>
+<div class="row ">
+	<form role="form" action="" method="post" class="search-form">
+		<div class="col-lg-4 col-center-block">
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="请输入搜索关键词">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div>
+	</form>
 </div>
 
 
 
-<div id="infomodal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 id="infomodal_title" class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p id="infomodal_message"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/website/shoppingcart'">前往购物车</button>
-      </div>
-	</div>
-  </div>
+<div>
+<table id="table-no-resize" >
+		<thead>
+		  <tr>
+			<th>类型</th>
+			<th>名称</th>
+			<th>厚度</th>
+			<th>尺寸</th>
+			<th>环保等级</th>
+			<th>单位</th>
+			<th>单价</th>
+			<th>每件数量</th>
+			<th>库存</th>
+			<th>操作</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for clskey,clsvalue in commodity_rdit.items %}
+			{% for mkey,mvalue in clsvalue.items %}
+				{% for dinfo in mvalue %}
+		  <tr>
+			<td data-th="Type_name"><span class="bt-content"><div>{{ clskey }}</div></span></td>
+			<td data-th="Name"><span class="bt-content"><a href="#">{{ mkey }}</a></span></td>
+			<td data-th="Spec"><span class="bt-content">{{ dinfo.CodSpec }}</span></td>
+			<td data-th="Unit"><span class="bt-content">{{ dinfo.CodUnit }}</span></td>
+			<td data-th="unPrice"><span class="bt-content" style="color:indianred">￥{{ dinfo.CodunPrice }}</span></td>
+			<td data-th="unNum"><span class="bt-content">{{ dinfo.CodUnmun }}</span></td>
+			<td data-th="inventory"><span class="bt-content">{{ dinfo.Codinventory }}</span></td>
+			<td data-th="operate"><span class="bt-content"></span></td>
+		  </tr>
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
+		  <!-- <tr>
+			<td data-th="Name"><span class="bt-content">John Stone</span></td>
+			<td data-th="Age"><span class="bt-content">30</span></td>
+			<td data-th="Gender"><span class="bt-content">Male</span></td>
+			<td data-th="Height"><span class="bt-content">5'9</span></td>
+			<td data-th="Province"><span class="bt-content">Ontario</span></td>
+			<td data-th="Sport"><span class="bt-content">Badminton</span></td>
+		  </tr> -->
+
+		</tbody>
+	  </table>
 </div>
 
-
-{% load static %}
-<script src="{% static "product.js" %}"></script>
-
-<script>
-
-    onload=function(){
-		var refreshedselect=document.getElementById("freshed");
-		var refreshedselect_index = refreshedselect.selectedIndex;
-		var e = refreshedselect.options[refreshedselect_index];
-		if(e.value==="no") {
-		    var refreshedyes = document.getElementById('freshedyes');
-		    refreshedyes.selected = true;
-		    getshopinfocache();
-		}
-		else{
-		    location.reload();
-		}
-    };
-
-	$('#productnum').bind('input propertychange',total_buymodal);
-
-	function total_buymodal(){
-        try {
-            var tprice = $("#unprice_value").text();
-            var buynum = $('#productnum').val();
-            document.getElementById('h3-total').innerHTML = buynum * tprice;
-        }
-        catch (err) {
-            document.getElementById('h3-total').innerHTML = err
-        }
-    }
-
-
-$(".nav-pills li").click(function(event) {
-    var li_siblings = $(this).siblings();
-    li_siblings.removeClass('active');
-    $(this).attr('class','active');
-
-    var ul_pclsdom = document.getElementById('ul-pcls');
-    var cls = ul_pclsdom.getElementsByClassName('active')[0].getAttribute('value');
-    get_productdata(1,cls)
-})
-
-</script>
-
+	{% load static %}
+	<link href="{% static "shopstyle.css" %}" rel="stylesheet">
 
 {% endblock %}
 

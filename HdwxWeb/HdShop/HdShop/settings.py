@@ -25,7 +25,7 @@ SECRET_KEY = 'zv29!hia*e+&)+ln^dj-+%uhln2x02m70(2*48q3f$eo6+!gxi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.184.128']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -71,7 +71,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
             ],
         },
     },
@@ -93,23 +92,6 @@ DATABASES = {
         'PORT':'',
     }
 }
-
-
-# redis配置
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 100}
-            # "PASSWORD": "密码",
-        }
-    }
-}
-
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
 
 
 # Password validation
@@ -145,18 +127,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Wechat api setting
-WETCHAT_APPID = ""
-WETCHAT_APPSECRET = ""
-WETCHAT_HOST = ""
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+MEDIA_URL = ''
 STATIC_URL = '/static/'
 STATIC_ROOT = '/admin/Python3Project/HdShop/HdShop'
-
-MEDIA_ROOT = os.path.join(BASE_DIR,'HdWxShop/media')
-MEDIA_URL = 'http://192.168.184.128:8000/'
 

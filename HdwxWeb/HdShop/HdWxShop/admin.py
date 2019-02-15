@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import webuser, userbind ,userrule,userrole, custsalebind, commodityinfo,commodityendinfo,commditydetail,commodityclass, shoppingflow,\
-    shoppingcart,newsinfo,newsclass, advinfo,shoppingflowproduct,custcommprice,indexshowcommodity,indexcommend,useraddress
+from .models import webuser, userbind ,userrule,userrole, custsalebind, commodityinfo ,commditydetail,commodityclass, shoppingflow,\
+    shoppingcart,newsinfo,newsclass, advinfo
 
 # Register your models here.
 admin.site.site_header = '厚徳木业源管理系统'
@@ -34,9 +34,7 @@ class userruleAdmin(admin.ModelAdmin):
     list_display = ['Userid','Roleid']
 
 # 用户绑定
-@admin.register(custsalebind)
-class userbinddamin(admin.ModelAdmin):
-    list_display = ['Customerid','Saleid']
+
 
 # 商品类别添加
 @admin.register(commodityclass)
@@ -55,37 +53,17 @@ class commdityinfoAdmin(admin.ModelAdmin):
     search_fields = ('Commname',)
     inlines = [commditydetailtab]
 
-# 客户单价表
-@admin.register(custcommprice)
-class custcommpriceAdmin(admin.ModelAdmin):
-    list_display = ['Cpuserid', 'Cpcommid', 'CpunPrice']
-    list_per_page = 50
-    search_fields = ('Cpuserid','Cpcommid')
-
-
-# 历史信息表,仅供查看,此处测试用....
-@admin.register(commodityendinfo)
-class commodityendinfoAdmin(admin.ModelAdmin):
-    list_display = ['Commid','CeiViewNum','CeiBuyNUm']
-
 
 # 流程管理
+class shoppingflowtab(admin.TabularInline):
+    model = shoppingflow
+
 @admin.register(shoppingcart)
 class shoppingcartAdmin(admin.ModelAdmin):
     list_display = ['ScUserid','ScCollectid','ScNum','ScunPrice','ScSum','ScAddDate']
     list_per_page = 50
     search_fields = ('ScCollectid',)
-
-
-class shoppingflowproducttab(admin.TabularInline):
-    model = shoppingflowproduct
-
-
-@admin.register(shoppingflow)
-class shoppingflowAdmin(admin.ModelAdmin):
-    list_display = ['SfUserid','Sfstatus','SfAddress','SfCreatetime']
-    list_per_page = 50
-    inlines = [shoppingflowproducttab]
+    inlines = [shoppingflowtab]
 
 # 广告管理
 @admin.register(advinfo)
@@ -108,20 +86,6 @@ class newsinfoAdmin(admin.ModelAdmin):
     search_fields = ('Newstitle',)
 
 
-@admin.register(indexshowcommodity)
-class indexshowcommodityAdmin(admin.ModelAdmin):
-    list_display = ['indexclass','showmany']
-    list_per_page = 50
 
-
-@admin.register(indexcommend)
-class indexshowcommend(admin.ModelAdmin):
-    list_display = ['commendidx','commenddetail']
-    list_per_page = 50
-
-@admin.register(useraddress)
-class useraddressAdmin(admin.ModelAdmin):
-    list_display = ['userid', 'UserAddress']
-    list_per_page = 50
 
 
