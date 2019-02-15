@@ -1,0 +1,169 @@
+{% extends "personalbase.html" %}
+
+{% block pbase %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form class="form-horizontal" role="button" method="post">
+    {% csrf_token %}
+      <div class="form-group">
+        <label class="col-sm-2 control-label">用户名</label>
+        <div class="col-sm-10">
+          <p class="form-control-static">{{ login_username }}</p>
+        </div>
+      </div>
+      <hr />
+      <div class="form-group">
+        <label class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-10">
+          <p class="form-control-static" style="display:inline-block;">***********</p>
+          <button data-toggle="modal" data-target="#cpassword" type="button" class="btn btn-default" style="display:inline-block;margin-left:30px">修改密码</button>
+        </div>
+      </div>
+      <hr />
+      <div class="form-group">
+        <label class="col-sm-2 control-label">手机号码</label>
+        <div class="col-sm-10">
+            {% if userinfo_query.Userphone %}
+                <p class="form-control-static">{{ userinfo_query.Userphone }}</p>
+            {% else %}
+                <a type="button" class="btn btn-default" href="/website/userbindphone"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp&nbsp绑定手机</a>
+            {% endif %}
+        </div>
+      </div>
+      <hr />
+      <div class="form-group">
+        <label class="col-sm-2 control-label">微信号</label>
+        <div class="col-sm-10">
+          <p class="form-control-static">{{ userinfo_query.Userwx }}</p>
+        </div>
+      </div>
+      <hr />
+      <div class="form-group">
+        <label class="col-sm-2 control-label">地址</label>
+        <div class="col-sm-2">
+            <button data-toggle="modal" data-target="#adminaddressModal" type="button" class="btn btn-default">地址管理</button>
+        </div>
+      </div>
+      <hr />
+      <div class="form-group">
+        <label class="col-sm-2 control-label">销售人员</label>
+        <div class="col-sm-10">
+          {% if userbind_query %}
+            <p class="form-control-static">{{ userbind_query.Saleid.Username }}</p>
+          {% else %}
+            <button  data-toggle="modal" data-target="#salebindmodal" type="button" class="btn btn-default">选择我的销售</button>
+          {% endif %}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- 修改密码Modal -->
+<div class="modal fade" id="cpassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">修改密码</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">用户名</label>
+                <p>{{ login_username }}</p>
+          </div>
+          <div class="form-group">
+            <label for="oldpassword" class="control-label">旧密码</label>
+            <input type="password" class="form-control" id="oldpassword" maxlength="12" minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="newpassword1" class="control-label">新密码</label>
+            <input type="password" class="form-control" id="newpassword1" maxlength="12" minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="newpassword2" class="control-label">确认新密码</label>
+            <input type="password" class="form-control" id="newpassword2" maxlength="12" minlength="6">
+          </div>
+        </form>
+        <div id="errorinfo" style="display:none;">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="cpassword()">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 信息modal -->
+<div id="infomodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div id="info-content" class="modal-body">
+
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<!-- 选择销售modal -->
+<div id="salebindmodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+        <div id="salebind-content" class="modal-body">
+            <form>
+              <label for="saleselect" class="col-sm-3 control-label">销售人员</label>
+              <select class="selectpicker" data-live-search="true" id="saleselect" name="saleselect">
+                  {% for asale in sale_options %}
+                      <option value="{{ asale.Userid.id }}">{{ asale.Userid.Username }}</option>
+                  {% endfor %}
+              </select>
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="setsale()">确认</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<!-- 选择地址modal -->
+<div id="adminaddressModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">地址管理</h4>
+            </div>
+            <div id="adminaddress-content" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static "useradmin.js" %}"></script>
+<script>
+refreshen_myaddressoption();
+$('#adminaddressModal').on('hide.bs.modal', function () {
+    refreshen_myaddressoption();
+});
+</script>
+
+{% endblock %}

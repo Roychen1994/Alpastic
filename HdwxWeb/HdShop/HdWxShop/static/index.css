@@ -1,0 +1,12 @@
+.carousel {
+    min-height: 200px;
+    margin-bottom: 30px;
+}
+.carousel .item {
+    min-height: 200px;
+    width: 100%;
+}
+.carousel img {
+    min-height: 200px;
+    width: 100%;
+}

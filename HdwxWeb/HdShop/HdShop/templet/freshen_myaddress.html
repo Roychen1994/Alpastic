@@ -1,0 +1,29 @@
+{% for address in address_list %}
+    <div class="myaddress-line">
+        <div class="input-group">
+            <input type="text" class="form-control"  value="{{ address.UserAddress }}" disabled>
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="edit_address(this,{{ address.id }})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                <button class="btn btn-default" type="button" onclick="del_address({{ address.id }})"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<div id="addaddress-line" class="myaddress-line" style="display:none">
+    <div class="input-group">
+        <input id="addaddress_input" type="text" class="form-control">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="add_address()"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+        </div>
+    </div>
+</div>
+
+<div id="addaddress-button">
+    <button class="btn btn-success" onclick="$('#addaddress-line').fadeIn();$('#addaddress-button').fadeOut()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加新地址</button>
+</div>
+
+<div id="addressmodal-message" style="display:none;">
+
+</div>
+
+

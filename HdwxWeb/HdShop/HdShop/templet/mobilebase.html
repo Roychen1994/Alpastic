@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+
+<body>
+
+{% block mobilebase %}
+{% endblock %}
+
+<div class="navfooter">
+    <div class="navfooter-nav" id="nav-indexicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-home" aria-hidden="true" onclick="window.location.href='/index/';"></span>
+            </div>
+            <p>主页</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-shopicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-list" aria-hidden="true" onclick="window.location.href='/shop/';"></span>
+            </div>
+            <p>商城</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-newsicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-folder-close" aria-hidden="true" onclick="window.location.href='/mainnews/';"></span>
+            </div>
+            <p>资讯</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-scicon" style="position: relative">
+        <a>
+            <span class="" id="showAmount">0</span>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" onclick="window.location.href='/website/shoppingcart/';"></span>
+            </div>
+            <p>购物车</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-psicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-user" aria-hidden="true" onclick="window.location.href='/website/home/';"></span>
+            </div>
+            <p>我的</p>
+        </a>
+    </div>
+</div>
+
+<script>
+    fresh_amount()
+</script>
+
+</body>
+
+{% endblock %}

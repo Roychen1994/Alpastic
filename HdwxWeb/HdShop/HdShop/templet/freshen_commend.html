@@ -1,0 +1,38 @@
+<div class="row commendhead hidden-xs shoptitle">
+    <p>品牌</p>
+    <p>类型</p>
+    <p style="width:22%;">名称</p>
+    <p>单价</p>
+    <p style="width:12%">环保等级</p>
+    <p style="width:12%">尺寸</p>
+    <p style="width:24%">&nbsp</p>
+</div>
+{% for acommend in commend %}
+    <div class="row index-commendrow">
+        <div class="index-commendrow1">
+            <p><span class="label label-success">{{ acommend.brand }}</span></p>
+            <p class="hidden-xs">{{ acommend.classes }}</p>
+            <a href="/shop/product/{{ acommend.detailid }}"><strong>{{ acommend.product }}</strong></a>
+            <p><strong class="unprice commendunprice">￥{{ acommend.unprice }}</strong></p>
+        </div>
+        <div class="index-commendrow2">
+            <p>{{ acommend.protlevel }}</p>
+            <p>{{ acommend.disize }}</p>
+        </div>
+        <div class="index-commendrow3">
+            <button data-toggle="modal" data-target="#buyModal" type="button" class="btn btn-primary" data-title="{{ acommend.product }}" data-price= "{{ acommend.unprice }}" data-dataid="{{ acommend.detailid }}"
+								    data-thick="{{ acommend.thick }}" data-codsize ="{{ acommend.dsize }}" data-protlevel="{{ acommend.protlevel }}" data-unit="{{ acommend.dunit }}" data-Unum="{{ acommend.unmun }}"
+								    data-inventory="{{ acommend.inventory }}" data-pimg="{{ acommend.pimg }}">
+							        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">加入购物车</span>
+            </button>
+            {% if  acommend.iscollect  ==  1 %}
+                <button type="button" class="btn btn-success" dataid="{{ acommend.detailid }}" onclick="ajax_addcollect(this,'del')" data-loading-text="Loading..."><span class="glyphicon glyphicon-star" aria-hidden="true"></span>已收藏</button>
+            {% else %}
+                <button type="button" class="btn btn-warning" dataid="{{ acommend.detailid }}" onclick="ajax_addcollect(this,'add')" data-loading-text="Loading..."><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>收藏</button>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+
+

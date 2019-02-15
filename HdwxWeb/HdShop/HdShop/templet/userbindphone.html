@@ -1,0 +1,56 @@
+{% extends "wxbase.html" %}
+{% block mainbody %}
+
+
+ {% if message %}
+    <div id="messageinfo">
+        <div id='myAlert' class='alert alert-warning'>
+            <a href='#' class='close' data-dismiss='alert'>&times;</a>
+            <p><strong>{{ message }}</strong></p>
+        </div>
+    </div>
+{% endif %}
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-4 col-sm-offset-4">
+                <form class="form-horizontal" role="button" method="post">
+                    {% csrf_token %}
+                    <div class="blue-title h4"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span>手机绑定</div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input name="phonenumber" type="text" class="form-control" id="myphone" placeholder="请输入您的手机号码"
+                            {% if phone_number %}
+                                value="{{ phone_number }}"
+                            {% endif %}
+                            >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input name="phonecheckcode" type="text" class="form-control" id="checkcode" placeholder="请输入验证码" style="margin-bottom:10px">
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="btn_sendcode" type="button" class="btn btn-default" onclick="sendcheckcode('bindphone')">获取验证码</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary btn-block">确认绑定</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="errorinfo" style="display:none;">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% load static %}
+<script src="{% static "useradmin.js" %}"></script>
+
+{% endblock %}

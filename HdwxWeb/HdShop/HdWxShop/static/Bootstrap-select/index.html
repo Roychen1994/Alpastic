@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Bootstrap下拉框功能增强插件Bootstrap-select.js|DEMO_jQuery之家-自由分享jQuery、html5、css3的插件库</title>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
+	<link rel="stylesheet" type="text/css" href="dist/css/bootstrap-select.css">
+</head>
+<body>
+	<div class="htmleaf-container">
+		<header class="htmleaf-header">
+			<h1> Bootstrap下拉框功能增强插件Bootstrap-select.js <span>utilizes Bootstrap's dropdown.js to style and bring additional functionality to standard select elements</span></h1>
+			<div class="htmleaf-links">
+				<a class="htmleaf-icon icon-htmleaf-home-outline" href="http://www.htmleaf.com/" title="jQuery之家" target="_blank"><span> jQuery之家</span></a>
+				<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://www.htmleaf.com/jQuery/Form/201802134981.html" title="返回下载页" target="_blank"><span> 返回下载页</span></a>
+			</div>
+		</header>
+		<div class="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>带分组的下拉选择框（Select boxes with optgroups）</h3>
+						<select class="selectpicker">
+						  <optgroup label="Picnic">
+						    <option>Mustard</option>
+						    <option>Ketchup</option>
+						    <option>Relish</option>
+						  </optgroup>
+						  <optgroup label="Camping">
+						    <option>Tent</option>
+						    <option>Flashlight</option>
+						    <option>Toilet Paper</option>
+						  </optgroup>
+						</select>
+						<div class="code">
+						<pre>
+&lt;select class="selectpicker"&gt;
+  &lt;optgroup label="Picnic"&gt;
+    &lt;option&gt;Mustard&lt;/option&gt;
+    &lt;option&gt;Ketchup&lt;/option&gt;
+    &lt;option&gt;Relish&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Camping"&gt;
+    &lt;option&gt;Tent&lt;/option&gt;
+    &lt;option&gt;Flashlight&lt;/option&gt;
+    &lt;option&gt;Toilet Paper&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;						
+						</pre>
+						</div>
+					</div>
+					
+					
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>多选下拉框（Multiple select boxes）</h3>
+						<select class="selectpicker" multiple>
+						  <option>Mustard</option>
+						  <option>Ketchup</option>
+						  <option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple&gt;
+  &lt;option&gt;Mustard&lt;/option&gt;
+  &lt;option&gt;Ketchup&lt;/option&gt;
+  &lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;								
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>带搜索功能的下拉框（Live search）</h3>
+						<p>可以通过<code>data-live-search="true"</code>属性为下拉框设置搜索框。</p>
+						<select class="selectpicker" data-live-search="true">
+						  <option>Mustard</option>
+						  <option>Ketchup</option>
+						  <option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple&gt;
+  &lt;option&gt;Mustard&lt;/option&gt;
+  &lt;option&gt;Ketchup&lt;/option&gt;
+  &lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;								
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>关键词（Key words）</h3>
+						<p>通过<code>data-tokens</code>属性为选项添加关键词，来增加搜索的功能。</p>
+						<select class="selectpicker" data-live-search="true">
+						  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+						  <option data-tokens="mustard">Burger, Shake and a Smile</option>
+						  <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" data-live-search="true"&gt;
+	&lt;option data-tokens="ketchup mustard"&gt;Hot Dog, Fries and a Soda&lt;/option&gt;
+	&lt;option data-tokens="mustard"&gt;Burger, Shake and a Smile&lt;/option&gt;
+	&lt;option data-tokens="frosting"&gt;Sugar, Spice and all things nice&lt;/option&gt;
+&lt;/select&gt;							
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>限制选择的数量（Limit the number of selections）</h3>
+						<p>可以限制多选的个数。下面的例子中，左边的选择框最多可以选两个选项。右边的选择框每个分组最多可以选择两个选项。</p>
+						<select class="selectpicker" multiple data-max-options="2">
+						  <option>Mustard</option>
+						  <option>Ketchup</option>
+						  <option>Relish</option>
+						</select>
+
+						<select class="selectpicker" multiple>
+						  <optgroup label="Condiments" data-max-options="2">
+						    <option>Mustard</option>
+						    <option>Ketchup</option>
+						    <option>Relish</option>
+						  </optgroup>
+						  <optgroup label="Breads" data-max-options="2">
+						    <option>Plain</option>
+						    <option>Steamed</option>
+						    <option>Toasted</option>
+						  </optgroup>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple data-max-options="2"&gt;
+  &lt;option&gt;Mustard&lt;/option&gt;
+  &lt;option&gt;Ketchup&lt;/option&gt;
+  &lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;select class="selectpicker" multiple&gt;
+  &lt;optgroup label="Condiments" data-max-options="2"&gt;
+    &lt;option&gt;Mustard&lt;/option&gt;
+    &lt;option&gt;Ketchup&lt;/option&gt;
+    &lt;option&gt;Relish&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Breads" data-max-options="2"&gt;
+    &lt;option&gt;Plain&lt;/option&gt;
+    &lt;option&gt;Steamed&lt;/option&gt;
+    &lt;option&gt;Toasted&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;						
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>自定义占位文本（Placeholder）</h3>
+						<p>通过<code>title=""</code>属性为下拉框设置占位文本。</p>
+						<select class="selectpicker" multiple title="请选择内容。。">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple title="请选择内容。。"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;						
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>替换文本（Selected text）</h3>
+						<p>为<code>&lt;option&gt;</code>设置<code>title=""</code>属性，可以为下拉框设置替换文本，显示时显示的是替换后的文本。</p>
+						<select class="selectpicker">
+							<option title="Combo 1">Hot Dog, Fries and a Soda</option>
+							<option title="Combo 2">Burger, Shake and a Smile</option>
+							<option title="Combo 3">Sugar, Spice and all things nice</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker"&gt;
+	&lt;option title="Combo 1"&gt;Hot Dog, Fries and a Soda&lt;/option&gt;
+	&lt;option title="Combo 2"&gt;Burger, Shake and a Smile&lt;/option&gt;
+	&lt;option title="Combo 3"&gt;Sugar, Spice and all things nice&lt;/option&gt;
+&lt;/select&gt;					
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>多选下拉框的显示格式（Selected text format）</h3>
+						<p>通过<code>data-selected-text-format</code>属性，可以指定在多选下拉框选择选项后的显示格式。支持的属性有：</p>
+						<ul>
+							<li><code>values</code>：用逗号分隔选择项。（默认）</li>
+							<li><code>count</code>：当选项等于一个时，显示选择选项的数量。</li>
+							<li><code>count &gt; x</code>：当选项大于某个数值时，从显示逗号分隔的多个值改为显示选择的数量。</li>
+							<li><code>static</code>：总是显示选择的替换文本。</li>
+						</ul>
+						<select class="selectpicker" multiple data-selected-text-format="count">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple data-selected-text-format="count"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;				
+							</pre>
+						</div>
+						<select class="selectpicker" multiple data-selected-text-format="count > 3">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+							<option>Onions</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple data-selected-text-format="count &gt; 3"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+	&lt;option&gt;Onions&lt;/option&gt;
+&lt;/select&gt;			
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>按钮样式（Button classes）</h3>
+						<p>通过<code>data-style</code>属性来为下拉框设置情景样式。</p>
+						<select class="selectpicker" data-style="btn-primary">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+
+						<select class="selectpicker" data-style="btn-info">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+
+						<select class="selectpicker" data-style="btn-success">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+
+						<select class="selectpicker" data-style="btn-warning">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+
+						<select class="selectpicker" data-style="btn-danger">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" data-style="btn-primary"&gt;
+  ...
+&lt;/select&gt;
+
+&lt;select class="selectpicker" data-style="btn-info"&gt;
+  ...
+&lt;/select&gt;
+
+&lt;select class="selectpicker" data-style="btn-success"&gt;
+  ...
+&lt;/select&gt;
+
+&lt;select class="selectpicker" data-style="btn-warning"&gt;
+  ...
+&lt;/select&gt;
+
+&lt;select class="selectpicker" data-style="btn-danger"&gt;
+  ...
+&lt;/select&gt;				
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>勾选图标（Checkmark on selected option）</h3>
+						<p>在已经选择的选项上添加勾选图标。</p>
+						<select class="selectpicker show-tick">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker show-tick"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;				
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3> 下拉框箭头（Menu arrow）</h3>
+						<p>为下拉框添加一个箭头。</p>
+						<select class="selectpicker show-menu-arrow">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker show-menu-arrow"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;				
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>自定义分割线样式（Style individual options）</h3>
+						<p>可以自定义分割线样式。</p>
+						<style type="text/css">
+.special {
+  font-weight: bold !important;
+  color: #fff !important;
+  background: #bc0000 !important;
+  text-transform: uppercase;
+}
+						</style>
+						<select class="selectpicker">
+							<option>Mustard</option>
+							<option class="special">Ketchup</option>
+							<option style="background: #5cb85c; color: #fff;">Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+.special {
+  font-weight: bold !important;
+  color: #fff !important;
+  background: #bc0000 !important;
+  text-transform: uppercase;
+}
+&lt;select class="selectpicker"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option class="special"&gt;Ketchup&lt;/option&gt;
+	&lt;option style="background: #5cb85c; color: #fff;"&gt;Relish&lt;/option&gt;
+&lt;/select&gt;			
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 col-xs-3">
+						<h3>下拉框宽度（Width）</h3>
+						<p>可以自定义下拉框的宽度。</p>
+						    <div class="form-group">
+						      <select class="selectpicker form-control">
+						        <option>Mustard</option>
+						        <option>Ketchup</option>
+						        <option>Relish</option>
+						      </select>
+						    </div>
+						<div class="code">
+							<pre>
+&lt;div class="row"&gt;
+  &lt;div class="col-xs-3"&gt;
+    &lt;div class="form-group"&gt;
+      &lt;select class="selectpicker form-control"&gt;
+        &lt;option&gt;Mustard&lt;/option&gt;
+        &lt;option&gt;Ketchup&lt;/option&gt;
+        &lt;option&gt;Relish&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;		
+							</pre>
+						</div>
+						<p>还可以通过<code>data-width</code>属性来设置下拉框的宽度。</p>
+						<pre>
+&lt;select class="selectpicker" data-width="auto"&gt;
+  ...
+&lt;/select&gt;
+&lt;select class="selectpicker" data-width="fit"&gt;
+  ...
+&lt;/select&gt;
+&lt;select class="selectpicker" data-width="100px"&gt;
+  ...
+&lt;/select&gt;
+&lt;select class="selectpicker" data-width="75%"&gt;
+  ...
+&lt;/select&gt;							
+						</pre>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>图标（Icons）</h3>
+						<p>可以通过<code>data-icon</code>属性来为选项设置一个图标。</p>
+						<select class="selectpicker">
+							<option data-icon="glyphicon-heart">Mustard</option>
+							<option data-icon="glyphicon-star">Ketchup</option>
+							<option data-icon="glyphicon-paperclip">Relish</option>
+						</select>
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker"&gt;
+	&lt;option data-icon="glyphicon-heart"&gt;Mustard&lt;/option&gt;
+	&lt;option data-icon="glyphicon-star"&gt;Ketchup&lt;/option&gt;
+	&lt;option data-icon="glyphicon-paperclip"&gt;Relish&lt;/option&gt;
+&lt;/select&gt;				
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>自定义内容（Custom content）</h3>
+						<p>可以通过<code>data-content</code>属性来为选项插入HTML内容。</p>
+						<select class="selectpicker">
+						  <option data-content="<span class='label label-success'>Mustard</span>">Mustard</option>
+						  <option data-content="<span class='label label-info'>Ketchup</span>">Ketchup</option>
+						  <option data-content="<span class='label label-primary'>Relish</span>">Relish</option>
+						</select>		
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker"&gt;
+  &lt;option data-content="&lt;span class='label label-success'&gt;Mustard&lt;/span&gt;"&gt;Mustard&lt;/option&gt;
+  &lt;option data-content="&lt;span class='label label-info'&gt;Ketchup&lt;/span&gt;"&gt;Ketchup&lt;/option&gt;
+  &lt;option data-content="&lt;span class='label label-primary'&gt;Relish&lt;/span&gt;"&gt;Relish&lt;/option&gt;
+&lt;/select&gt;		
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>子文本（Subtext）</h3>
+						<p>可以通过<code>data-size</code>属性来为选项添加一个子描述文本。</p>
+						<select class="selectpicker" data-size="5">
+							<option data-subtext="Heinz">Mustard</option>
+							<option data-subtext="ok">Ketchup</option>
+							<option data-subtext="hello">Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" data-size="5"&gt;
+	&lt;option data-subtext="Heinz"&gt;Mustard&lt;/option&gt;
+	&lt;option data-subtext="ok"&gt;Ketchup&lt;/option&gt;
+	&lt;option data-subtext="hello"&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>菜单显示多少项（Menu size）</h3>
+						<p>菜单的尺寸默认为<code>auto</code>。如果设置菜单尺寸为<code>false</code>或0，则显示所有的菜单项。你可以通过<code>data-size</code>属性来设置指定的菜单尺寸。下面的菜单只显示2项。</p>
+						<select class="selectpicker" data-size="2">
+							<option data-subtext="Heinz">Mustard</option>
+							<option data-subtext="ok">Ketchup</option>
+							<option data-subtext="hello">Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" data-size="2"&gt;
+	&lt;option data-subtext="Heinz"&gt;Mustard&lt;/option&gt;
+	&lt;option data-subtext="ok"&gt;Ketchup&lt;/option&gt;
+	&lt;option data-subtext="hello"&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>全选或全不选（Select/deselect all options）</h3>
+						<p>通过<code>data-actions-box="true"</code>来对下拉框进行全选或全不选。</p>
+						<select class="selectpicker" multiple data-actions-box="true">
+							<option data-subtext="Heinz">Mustard</option>
+							<option data-subtext="ok">Ketchup</option>
+							<option data-subtext="hello">Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" multiple data-actions-box="true"&gt;
+	&lt;option data-subtext="Heinz"&gt;Mustard&lt;/option&gt;
+	&lt;option data-subtext="ok"&gt;Ketchup&lt;/option&gt;
+	&lt;option data-subtext="hello"&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>分隔线（Divider）</h3>
+						<p>通过<code>data-divider="true"</code>来设置下拉框的分隔线。</p>
+						<select class="selectpicker">
+							<option>Mustard</option>
+							<option data-divider="true"></option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option data-divider="true"&gt;&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>菜单头部（Menu header）</h3>
+						<p>通过<code>data-header</code>来设置下拉框设置一个菜单头选项。</p>
+						<select class="selectpicker" data-header="Select a condiment">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" data-header="Select a condiment"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>箭头方向（Dropup menu）</h3>
+						<p>通过<code>.dropup</code>class来手动设置小箭头的方向为向上方向。</p>
+						<select class="selectpicker dropup">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker dropup"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>禁用下拉框（Disabled select box）</h3>
+						<p>通过<code>disabled</code>属性来禁用下拉框。</p>
+						<select class="selectpicker" disabled>
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker" disabled&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>禁用菜单项（Disabled options）</h3>
+						<p>通过为菜单项添加<code>.disabled</code>属性来禁用它。</p>
+						<select class="selectpicker">
+							<option>Mustard</option>
+							<option disabled>Ketchup</option>
+							<option>Relish</option>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker disabled"&gt;
+	&lt;option&gt;Mustard&lt;/option&gt;
+	&lt;option disabled&gt;Ketchup&lt;/option&gt;
+	&lt;option&gt;Relish&lt;/option&gt;
+&lt;/select&gt;	
+							</pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3>禁用下拉框分组（Disabled option groups）</h3>
+						<p>通过为分组添加<code>.disabled</code>属性来禁用它。</p>
+						<select class="selectpicker test">
+						  <optgroup label="Picnic" disabled>
+						    <option>Mustard</option>
+						    <option>Ketchup</option>
+						    <option>Relish</option>
+						  </optgroup>
+						  <optgroup label="Camping">
+						    <option>Tent</option>
+						    <option>Flashlight</option>
+						    <option>Toilet Paper</option>
+						  </optgroup>
+						</select>	
+						<div class="code">
+							<pre>
+&lt;select class="selectpicker test"&gt;
+  &lt;optgroup label="Picnic" disabled&gt;
+    &lt;option&gt;Mustard&lt;/option&gt;
+    &lt;option&gt;Ketchup&lt;/option&gt;
+    &lt;option&gt;Relish&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Camping"&gt;
+    &lt;option&gt;Tent&lt;/option&gt;
+    &lt;option&gt;Flashlight&lt;/option&gt;
+    &lt;option&gt;Toilet Paper&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+							</pre>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="related">
+		    <h3>如果你喜欢这个插件，那么你可能也喜欢:</h3>
+		    <a href="http://www.htmleaf.com/jQuery/Form/201801134929.html">
+			  <img src="related/1.jpg" width="300" alt="Bootstrap 4 select下拉框功能扩展和美化jquery插件"/>
+			  <h3>Bootstrap 4 select下拉框功能扩展和美化jquery插件</h3>
+			</a>
+			<a href="http://www.htmleaf.com/jQuery/Form/201603313282.html">
+			  <img src="related/2.jpg" width="300" alt="tinySelect-带搜索过滤和ajax加载功能的select下拉框插件"/>
+			  <h3>tinySelect-带搜索过滤和ajax加载功能的select下拉框插件</h3>
+			</a>
+		</div>
+	</div>
+	
+	<script src="http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-select.js"></script>
+</body>
+</html>

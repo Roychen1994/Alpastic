@@ -1,0 +1,56 @@
+{% extends "wxbase.html" %}
+
+{% block mainbody %}
+{% load static %}
+<div class="row nav-websitebase">
+    <div class="col-sm-3">
+			<ul class="nav nav-pills nav-stacked">
+                <li role="presentation"  class="active"><a data-toggle="collapse" href="#usercollapse" aria-expanded="false" aria-controls="usercollapse">
+                    <span id="collpaseico" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>&nbsp&nbsp个人中心</a>
+                </li>
+            </ul>
+            <div class="collapse in" id="usercollapse">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a class="nav-aselect" href="/website/home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp&nbsp个人主页</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/userinfo"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp&nbsp用户信息</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/collect"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp&nbsp收藏夹</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/shoppingcart"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp&nbsp购物车</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/shoppingflow"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp&nbsp订单</a></li>
+                </ul>
+            </div>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"  class="active"><a data-toggle="collapse" href="#admincollapse" aria-expanded="false" aria-controls="admincollapse">
+                    <span id="collpaseico" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>&nbsp&nbsp业务管理</a>
+                </li>
+            </ul>
+            <div class="collapse" id="admincollapse">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a class="nav-aselect" href="/website/saleadmin"><span class="glyphicon glyphicon glyphicon-link"></span>&nbsp&nbsp我的客户</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/adminflow"><span class="glyphicon glyphicon-list-alt"></span>&nbsp&nbsp订单管理</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/adminproduct"><span class="glyphicon glyphicon-briefcase"></span>&nbsp&nbsp商品管理</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/adminuser"><span class="glyphicon glyphicon-user"></span>&nbsp&nbsp用户管理</a></li>
+                    <li role="presentation"><a class="nav-aselect" href="/website/adminnews"><span class="glyphicon glyphicon-calendar"></span>&nbsp&nbsp新闻管理</a></li>
+                </ul>
+            </div>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"  class="active"><a data-toggle="collapse" href="#infocollapse" aria-expanded="false" aria-controls="infocollapse">
+						<span id="collpaseico" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>&nbsp&nbsp信息查询</a>
+                <div class="collapse" id="infocollapse">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"><a class="nav-aselect" href="/website/outputtrade"><span class="glyphicon glyphicon-paste"></span>&nbsp&nbsp历史交易信息</a></li>
+                        <li role="presentation"><a class="nav-aselect" href="/website/outputsaleach"><span class="glyphicon glyphicon-paste"></span>&nbsp&nbsp销售人员业绩</a></li>
+                        <li role="presentation"><a class="nav-aselect" href="/website/outputproductsale"><span class="glyphicon glyphicon-paste"></span>&nbsp&nbsp产品流水</a></li>
+                        <li role="presentation"><a class="nav-aselect" href="/website/outputproducttotal"><span class="glyphicon glyphicon-paste"></span>&nbsp&nbsp产品汇总</a></li>
+                    </ul>
+                </div>
+                </li>
+            </ul>
+    </div>
+	<div class="col-sm-8 nav-websitebase">
+    {% block websitebody %}
+    {% endblock %}
+	</div>
+</div>
+<script src="{% static "product.js" %}"></script>
+<link href="{% static "mysite.css" %}" rel="stylesheet">
+{% endblock %}

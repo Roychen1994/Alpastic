@@ -1,0 +1,88 @@
+{% extends "personalbase.html" %}
+{% block pbase %}
+
+<div class="row">
+    <div class="col-sm-7">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <p>订单信息</p>
+          </div>
+          <div class="panel-body">
+              <dl class="dl-horizontal">
+                <dt>订单号:</dt><dd>{{ flowinfo.flowid }}</dd>
+                <dt>当前状态:</dt><dd>{{ flowinfo.get_Sfstatus_display }}</dd>
+                <dt>下单时间:</dt><dd>{{ flowinfo.SfCreatetime|date:"Y-m-d H:i:s" }}</dd>
+                <dt>地址:</dt><dd>{{ flowinfo.SfAddress }}</dd>
+                <dt>备注:</dt><dd>{{ flowinfo.SfRemark }}</dd>
+              </dl>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-sm-5">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <p>订单信息</p>
+          </div>
+          <div class="panel-body">
+              <ul>
+                  {% if flowinfo.sfsubmittime %}
+                    <li class="text-success">确认时间:{{ flowinfo.sfsubmittime|date:"Y-m-d H:i:s" }}</li>
+                  {% else %}
+                    <li class="text-muted">订单待确认</li>
+                  {% endif %}
+                  {% if flowinfo.sfpaytime %}
+                      <li class="text-success">付款时间:{{ flowinfo.sfpaytime|date:"Y-m-d H:i:s" }}</li>
+                  {% else %}
+                      <li class="text-muted">未付款</li>
+                  {% endif %}
+                  {% if flowinfo.sfsmtime %}
+                      <li class="text-success">出货时间:{{ flowinfo.sfsmtime|date:"Y-m-d H:i:s" }}</li>
+                  {% else %}
+                      <li class="text-muted">待货中</li>
+                  {% endif %}
+              </ul>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <p>商品信息</p>
+          </div>
+          <ul id="flowproductinfo" class="list-group">
+
+          </ul>
+           <div id="showflowproduct-footer" class="panel-footer">
+               {% csrf_token %}
+               <div class="row">
+                   <div class="col-sm-10">
+                        <p>商品:<span>￥<span id="productprice"></span></span></p>
+                        <p>运费:<span>￥<span id="carryprice">{{ flowinfo.SfCarryPrice }}</span></span></p>
+                        <p>合计:<span>￥<span id="totalprice"></span></span></p>
+                   </div>
+                   <div class="col-sm-2">
+                       <form method="POST" role="form" action="/website/shoppingflow/">
+                           {% csrf_token %}
+                           <input name="hipflowid" value="{{ flowinfo.id }}" type="hidden">
+                           {% if flowinfo.Sfstatus == 3 %}
+                               <button type="button" class="btn btn-success" onclick="submit_sure(this,'确认操作？','确认后请等待工作人员处理。')"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp&nbsp确认订单</button>
+                           {% endif %}
+                           {% if flowinfo.Sfstatus == 6 %}
+                               <button type="button" class="btn btn-success" onclick="submit_sure(this,'确认操作？','确认后请等待工作人员处理。')"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>&nbsp&nbsp确认收货</button>
+                           {% endif %}
+                        </form>
+                   </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    refreshmyflowproduct({{ flowinfo.id }})
+</script>
+{% endblock %}
+
+
+

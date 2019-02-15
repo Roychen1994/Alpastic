@@ -1,0 +1,22 @@
+{% load static %}
+{% for aproduct in myflowproduct %}
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-sm-3 col-xs-12">
+                <img src="{{ aproduct.shoppinginfoid.Commimg|cut:"HdWxShop" }}" alt="{{ aproduct.shoppinginfoid.CommName }}" class="img-thumbnail">
+            </div>
+            <div class="col-sm-7 col-xs-12">
+                <a href="/shop/product/{{ aproduct.shoppingdetailid.id }}"><h4>{{ aproduct.shoppinginfoid.CommName }}</h4></a>
+                <p class="ths_total"><span class="product-tag">单价:</span><span>￥{{ aproduct.sfpunPrice }}</span></p>
+                <p class="product-detail"><span class="product-tag">数量:</span><span>{{ aproduct.sfpnum }}</span></p>
+                <p class="product-detail"><span class="product-tag">功能:</span>&nbsp{{ aproduct.shoppinginfoid.Codfunction }}</p>
+                <p class="product-detail"><span class="product-tag">厚度:</span>&nbsp{{ aproduct.sfpUnit }}</p>
+                <p class="product-detail"><span class="product-tag">尺寸:</span>&nbsp{{ aproduct.sfpSize }}</p>
+                <p class="product-detail"><span class="product-tag">环保等级:</span>&nbsp{{ aproduct.sfp_Protlevel }}</p>
+            </div>
+            <div class="col-sm-2 col-xs-12">
+                <h4 class="unprice">￥{{ aproduct.sfpsumprice }}</h4>
+            </div>
+        </div>
+    </li>
+{% endfor %}

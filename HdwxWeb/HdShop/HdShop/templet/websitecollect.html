@@ -1,0 +1,162 @@
+{% extends "personalbase.html" %}
+
+{% block pbase %}
+{% csrf_token %}
+<div id="collectbody" class="row">
+{% for collect in collects %}
+        <div id="div_collect{{ collect.collectinfo.CcCommid.id }}" class="panel panel-default col-sm-4">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <a href="/shop/product/{{ collect.collectinfo.CcCommid.id }}"><strong>{{ collect.collectinfo.CcCommid.Commid.CommName }}</strong></a>
+                        <p><span class="userflow-flag">单价：</span>￥{{ collect.unprice }}</p>
+                        <p><span class="userflow-flag">品牌：</span>&nbsp{{ collect.collectinfo.CcCommid.Codbrand }}</p>
+                        <p><span class="userflow-flag">厚度：</span>&nbsp{{ collect.collectinfo.CcCommid.Codthick }}</p>
+                        <p><span class="userflow-flag">尺寸：</span>&nbsp{{ collect.collectinfo.CcCommid.CodSize }}</p>
+                        <p><span class="userflow-flag">环保等级：</span>&nbsp{{ collect.collectinfo.CcCommid.Cod_Protlevel }}</p>
+                        <p><span class="userflow-flag">单件包装量：</span>&nbsp{{ collect.collectinfo.CcCommid.CodUnmun }}{{ collect.collectinfo.CcCommid.CodUnit }}</p>
+                    </div>
+                    <div class="col-sm-4 collectrow-right">
+                        <img src="{{ collect.collectinfo.CcCommid.Commid.Commimg|cut:"HdWxShop" }}" alt="..." class="img-thumbnail">
+                        <a dataid="{{ collect.collectinfo.CcCommid.id }}" class="btn btn-default" role="button" onclick="ajax_sitecollect(this,'del')">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                        <button data-toggle="modal" data-target="#buyModal" type="button" class="btn btn-primary" data-title="{{ collect.collectinfo.CcCommid.Commid.CommName }}" data-price= "{{ collect.unprice }}" data-dataid="{{ collect.collectinfo.CcCommid.id }}"
+								data-thick="{{ collect.collectinfo.CcCommid.Codthick }}" data-codsize ="{{ collect.collectinfo.CcCommid.CodSize }}" data-protlevel="{{ collect.collectinfo.CcCommid.Cod_Protlevel }}" data-unit="{{ collect.collectinfo.CcCommid.CodUnit }}" data-Unum="{{ collect.collectinfo.CcCommid.CodUnmun }}"
+								data-inventory="{{ collect.collectinfo.CcCommid.Cod_Protlevel }}" data-pimg="{{ collect.collectinfo.CcCommid.Commid.Commimg|cut:"HdWxShop" }}">
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+						</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+</div>
+
+    <div>
+     {% if pagelist %}
+          <nav aria-label="Page navigation" class="mypagination">
+              <ul class="pagination">
+                  {% if pagelist.has_previous %}
+                  <li>
+                      <a href="?page={{ pagelist.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                      </a>
+                  </li>
+                  {% else %}
+                  <li class="disabled">
+                      <a class="disabled" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                      </a>
+                  </li>
+                  {% endif %}
+                  {% for page in pagelist %}
+                  {% if page == pagelist.number  %}
+                  <li class="active"><a href="#">{{ page }}</a></li>
+                  {% else %}
+                  <li><a href="?page={{ page }}">{{ page }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if pagelist.has_next %}
+                  <li>
+                      <a href="?page={{ pagelist.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                      </a>
+                  </li>
+                  {% else %}
+                  <li class="disabled">
+                      <a class="disabled" href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                      </a>
+                  </li>
+                  {% endif %}
+              </ul>
+          </nav>
+         </div>
+     {% endif %}
+
+
+<!----------------- buyModal 模态框 ------------------->
+<div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-sm-5">
+				<img id="modal-img" class="img-thumbnail" src="" style="width: 460px">
+			</div>
+			<div class="col-sm-7">
+				<p id="p-uprice" class="price"></p>
+                <p id="p-thick"></p>
+                <p id="p-size"></p>
+                <p id="p-protlevel"></p>
+                <p id="p-nmun"></p>
+				<form class="form-inline">
+					<div class="form-group">
+							<label for="productnum" class="control-label">购入数量:</label>
+							<input type="text" class="form-control numinput" id="productnum" value="1">
+					</div>
+				</form>
+			</div>
+		</div>
+        <div id="errorinfo" style="display:none;">
+
+        </div>
+      <div class="modal-footer">
+          <div class="row">
+              <div class="col-sm-4">
+                  <p class="toatl-price"><small>合计:￥&nbsp&nbsp</small><strong id="h3-total" style="color:indianred"></strong></p>
+              </div>
+              <div class="col-sm-8">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                  <button id="btn_addshoppingcart" type="button" dataid="" class="btn btn-primary" onclick="ajax_addshopingcart(this,'buy')">加入购物车</button>
+              </div>
+          </div>
+      </div>
+	 </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="infomodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="infomodal_message"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/website/shoppingcart'">前往购物车</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+{% load static %}
+<script src="{% static "product.js" %}"></script>
+<script>
+	$('#productnum').bind('input propertychange',total_buymodal);
+
+	function total_buymodal(){
+        try {
+            var tprice = $("#unprice_value").text();
+            var buynum = $('#productnum').val();
+            document.getElementById('h3-total').innerHTML = buynum * tprice;
+        }
+        catch (err) {
+            document.getElementById('h3-total').innerHTML = err
+        }
+    }
+</script>
+{% endblock %}
+

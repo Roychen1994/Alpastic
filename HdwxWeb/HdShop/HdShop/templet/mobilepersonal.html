@@ -1,0 +1,126 @@
+{% extends "mobilebase.html" %}
+{% block mobilebase %}
+{% load static %}
+
+    <div id="mobile-personbody">
+        <div id="mobile-head">
+            <div class="mobile-headrow">
+                <div class="mobile-headleft">
+                    <a onClick="javaScript:history.go(-1)"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+                </div>
+                <div class="mobile-headtitle">
+                    个人中心
+                </div>
+                <div class="mobile-headend">
+
+                </div>
+            </div>
+        </div>
+        <div id="mobile-personinfo">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% csrf_token %}
+                    <div id="personinfo-head">
+                        <a href="/website/userinfo/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp帐号管理</a>
+                    </div>
+                    <div id="personinfo-body">
+                        <h5>{{ login_username }}&nbsp&nbsp<a href="/logout">注销</a></h5>
+                        <p id="p-webusername">
+                            昵称:{{ webuser_query.Username }}&nbsp&nbsp
+                            <button data-toggle="modal" data-target="#changun" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+                        </p>
+                        {% if userinfo.Userphone %}
+                            <p>手机:{{ userinfo.Userphone }}</p>
+                        {% else %}
+                            <a href="/website/userbindphone/"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp&nbsp绑定手机</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mobile-navline">
+            <div class="panel panel-default">
+                <div class="panel-body" id="mobile-navpanel">
+                    <div class="col-xs-3 person-nav-div">
+                        <a href="/website/collect/">
+                            <div class="person-nav-icon">
+                                <i class="icon iconfont icon-ico_preference"></i>
+                            </div>
+                            <p>收藏夹</p>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 person-nav-div">
+                        <a href="/website/shoppingcart/">
+                            <div class="person-nav-icon">
+                                <i class="icon iconfont icon-ico_expressInfo"></i>
+                            </div>
+                        </a>
+                        <p>购物车</p>
+                    </div>
+                    <div class="col-xs-3 person-nav-div">
+                        <a href="/website/shoppingflow/">
+                            <div class="person-nav-icon">
+                                <i class="icon iconfont icon-ico_signed"></i>
+                            </div>
+                        </a>
+                        <p>我的订单</p>
+                    </div>
+                    <div class="col-xs-3 person-nav-div">
+                        <a href="/website/history/">
+                            <div class="person-nav-icon" >
+                                <i class="icon iconfont icon-ico_serviceQuery"></i>
+                            </div>
+                            <p>历史信息</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-userflow">
+
+        </div>
+
+    </div>
+
+
+
+<!----------------- changun 模态框 ------------------->
+<div class="modal fade" id="changun" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">修改昵称</h4>
+        </div>
+        <div class="modal-body">
+		    <div class="row">
+                <form>
+                    <label for="oldwebusername">旧昵称</label>
+                    <input type="text" class="form-control" id="oldwebusername" value="{{ webuser_query.Username }}" disabled>
+                    <label for="newwebusername">新昵称</label>
+                    <input type="text" class="form-control" id="newwebusername" placeholder="1-15个中英文">
+                </form>
+			</div>
+
+        </div>
+        <div id="errorinfo" style="display:none;">
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button id="btn_addshoppingcart" type="button" dataid="" class="btn btn-primary" onclick="changewebusername()">修改</button>
+        </div>
+
+      </div>
+    </div>
+</div>
+
+<script src="{% static "useradmin.js" %}"></script>
+<script>
+    refresh_userflow();
+    onload=function(){
+        navfooteractive('nav-psicon');
+    }
+</script>
+{% endblock %}

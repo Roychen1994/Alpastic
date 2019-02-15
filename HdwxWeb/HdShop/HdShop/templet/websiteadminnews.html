@@ -1,0 +1,148 @@
+{% extends "websitebase.html" %}
+
+{% block websitebody %}
+<div class="page-header">
+  <h2>新闻信息管理</h2>
+</div>
+
+{% if message %}
+    <div id="messageinfo">
+        {{ message | safe }}
+    </div>
+{% endif %}
+
+<div class="panel panel-default">
+  <div class="panel-body">
+      <form class="form-inline" method="GET" role="form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="newsclass">新闻类别</label>
+            <select id="newsclass" name="newsclass" class="form-control">
+                <option value="">全部</option>
+                {% for cls in newsclass_options %}
+                <option value="{{ cls.id }}">{{ cls.Nclassname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="search-newsname" class="flable">新闻名称</label>
+            <input name="newsname" id="search-newsname" type="text" class="form-control" aria-describedby="basic-pname" placeholder="请输入关键字...">
+        </div>
+        <button class="btn btn-default" type="button" onclick="freshen_newinfo(1)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp&nbsp搜索</button>
+        <div class="rightp">
+            <a type="button" class="btn btn-success" href="/website/adminnews/add"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>添加新闻</a>
+            <a data-toggle="modal" data-target="#addnewscls" type="button" class="btn btn-success" href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加类别</a>
+        </div>
+      </form>
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-body" id="adminnewstable">
+
+  </div>
+</div>
+
+<!------------------------- 添加新闻类别 -------------------------------->
+<div id="addnewscls" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title">添加类别</h4>
+      </div>
+      <div class="modal-body">
+          <form class="form-horizontal">
+              <div class="form-group">
+                <label for="newscls" class="col-sm-2 control-label">类型名称</label>
+                <div class="col-sm-10">
+                    <input class="form-control" name="newscls">
+                </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-10 col-sm-offset-2">
+                      <button type="button" class="btn btn-primary" id="detail-commit" onclick="addnewscls()">确认</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                   </div>
+              </div>
+          </form>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<!----------------- 删除警告模态框 ------------------->
+<div id="delnewsModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="delmodal_title" class="modal-title">删除</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger">你确认要删除以下新闻信息吗？</p>
+        <ol id="ol-delproductinfo">
+
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button id="btn_submitdel" type="button" class="btn btn-danger" onclick="jsdeleteproduct('del-product')">确认删除</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<script>
+function freshen_newinfo(page){
+    var csrf_value = $("input[name='csrfmiddlewaretoken']").val();
+    var search_value = $("input[name='newsname']").val();
+    var newscls = $("#newsclass").val();
+    $('#adminnewstable').empty();
+    $.ajax({
+        url: '/fresh_newsinfo/',
+        type: 'POST',
+        data: {
+            'csrfmiddlewaretoken': csrf_value,
+            'search_value': search_value,
+            'newscls': newscls,
+            'page':page
+        },
+        dataType: 'text',
+        success: function (data) {
+            $('#adminnewstable').html(data);
+            $("#allcb").change(function checkall() {
+                if($("#allcb").is(":checked")){
+                    $('.ncheck').prop("checked",true);
+                }else{
+                    $('.ncheck').prop("checked",false);
+                }
+            })
+        }
+    })
+}
+
+$('#delnewsModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var doms_checked = document.getElementsByClassName("ncheck");
+    var prool = document.getElementById("ol-delproductinfo");
+    prool.innerHTML = "";
+    for(var i = doms_checked.length - 1; i >= 0; i--){
+        if(doms_checked[i].checked){
+            var lidom = document.createElement("li");
+            var check_parent = doms_checked[i].parentNode.parentNode;
+            var proname = check_parent.getElementsByClassName("newsname")[0];
+            lidom.innerText= proname.innerText;
+            prool.append(lidom)
+        }
+    }
+})
+
+
+freshen_newinfo(1);
+</script>
+
+{% endblock  %}

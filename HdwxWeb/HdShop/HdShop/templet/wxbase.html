@@ -1,136 +1,116 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Theme Template for Bootstrap</title>
-
-	<!-- jQuery文件。务必在bootstrap.min.js 之前引入
-	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> -->
-
-	<!-- Jquery 3.2.1 bootcss cdn
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/core.js"></script>
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.js"></script>
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script> -->
-
-	<<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
-	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-
-	<!-- 新 Bootstrap 核心 CSS 文件 -->
-	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- 可选的Bootstrap主题文件（一般不使用） -->
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
-
-	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	{% load static %}
-	<link href="{% static "normailze.css" %}" rel="stylesheet">
-
-</head>
+{% extends "base.html" %}
+{% block body %}
 
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#example-navbar-collapse">
-				<span class="sr-only">切换导航</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#"><img class="logo" src="{% static "logo.JPEG" %}" alt="index" style="margin-top: -30px;">
-        	</a>
-		</div>
-	<div class="collapse navbar-collapse" id="example-navbar-collapse">
-		<p class="navbar-text navbar-right">
-			{% if login_username  %}
-			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>Welcome! {{ login_username }} |
-			<a href="/logout" class="navbar-link">注销</a>&nbsp&nbsp&nbsp&nbsp
-			{% else %}
-			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>Sign in
-			<a href="/login" class="navbar-link">登录/</a>
-			<a href="/register/user" class="navbar-link">注册</a>&nbsp&nbsp&nbsp&nbsp
-			{% endif %}
-		<ul class="nav navbar-nav">
-			<li><a href="/index">主页</a></li>
-			<li><a href="#">公司简介</a></li>
-			<li><a href="/mainnews">新闻</a></li>
-			<li><a href="#">我的</a></li>
-			<li class="dropdown">
-				<a href="/shop/" class="dropdown-toggle" data-toggle="dropdown">
-					产品 <b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu">
-					{% for commcls in classes %}
-					<li><a href="#">{{ commcls.CclassName }}</a></li>
-					{% endfor %}
-				</ul>
-			</li>
-		</ul>
-	</div>
-	</div>
-</nav>
-	<h5><br></h5>
- 	{% block mainbody %}
-	{% endblock %}
-<div>
-	<h5><br></h5>
-	<nav  class="navbar navbar-default navbar-static-bottom">
+    {% load static %}
+    <div class="hidden-xs">
+	    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	    <div class="container-fluid">
+	    	<div class="navbar-header">
+	    		<button type="button" class="navbar-toggle" data-toggle="collapse"
+	    			data-target="#example-navbar-collapse">
+	    			<span class="sr-only">切换导航</span>
+	    			<span class="icon-bar"></span>
+	    			<span class="icon-bar"></span>
+	    			<span class="icon-bar"></span>
+	    		</button>
+                <img src="{% static "weblogo.png" %}">
+            	<!-- <a class="navbar-brand">厚德木业</a> -->
+	    	</div>
+	    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+	    	<p class="navbar-text navbar-right">
+	    		{% if login_username  %}
+	    		<span class="glyphicon glyphicon-user" aria-hidden="true"></span>Welcome! {{ login_username }} |
+	    		<a href="/logout" class="navbar-link">注销</a>&nbsp&nbsp&nbsp&nbsp
+	    		{% else %}
+	    		<span class="glyphicon glyphicon-user" aria-hidden="true"></span>Sign in
+	    		<a href="/login" class="navbar-link">登录/</a>
+	    		<a href="/register/user" class="navbar-link">注册</a>&nbsp&nbsp&nbsp&nbsp
+	    		{% endif %}
+	    	<ul class="nav navbar-nav">
+	    		<li><a href="/index">主页</a></li>
+                <li><a href="/shop">商城</a></li>
+	    		<li><a href="/mainnews">新闻</a></li>
+	    		<li><a href="/website/home">我的</a></li>
+	    	</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
 
-		<div class ='row'>
+    <div id="indexbody">
+ 	    {% block mainbody %}
+	    {% endblock %}
+    </div>
 
-			<div class="col-sm-6">
-			<address>
-			  	<strong>Inc.</strong><br>
-			  	东莞市 厚街镇 AAAA<br>
-			  	C 123456<br>
-			  	<abbr title="Phone">P:</abbr> (123) 456-7890
-			</address>
-			</div>
-			<div class="col-sm-6">
-			<address>
-			  	<strong>Full Name</strong><br>
-			  	<a href="mailto:#">first.last@example.com</a>
-			</address>
-			</div>
 
-		</div>
-	</nav>
+<footer class="footer">
+    <div class="row">
+        <div class="col-sm-5 col-sm-offset-1">
+            <address>
+                <strong>Inc.</strong><br>
+                东莞市 厚街镇 AAAA<br>
+                C 123456<br>
+                <abbr title="Phone">P:</abbr> (123) 456-7890
+            </address>
+        </div>
+        <div class="col-sm-6">
+            <address>
+                <strong>Full Name</strong><br>
+                <a href="mailto:#">first.last@example.com</a>
+            </address>
+        </div>
+    </div>
+</footer>
+
+<div class="visible-xs">
+    <div class="navfooter">
+    <div class="navfooter-nav" id="nav-indexicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-home" aria-hidden="true" onclick="window.location.href='/index/';"></span>
+            </div>
+            <p>主页</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-shopicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-list" aria-hidden="true" onclick="window.location.href='/shop/';"></span>
+            </div>
+            <p>商城</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-newsicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-folder-close" aria-hidden="true" onclick="window.location.href='/mainnews/';"></span>
+            </div>
+            <p>资讯</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-scicon" style="position: relative">
+        <a>
+            <span class="" id="showAmount">0</span>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" onclick="window.location.href='/website/shoppingcart/';"></span>
+            </div>
+            <p>购物车</p>
+        </a>
+    </div>
+    <div class="navfooter-nav" id="nav-psicon">
+        <a>
+            <div class="nav-icon">
+                <span class="glyphicon glyphicon-user" aria-hidden="true" onclick="window.location.href='/website/home/';"></span>
+            </div>
+            <p>我的</p>
+        </a>
+    </div>
 </div>
 
-<!-- <footer id="footer" class="clearfix">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <p>东莞市 XXXXX</p>
-                    <p>+1 234 456 7890</p>
-                    <p><a href="mailto:mail@example.com" style="color: #4BAFD3;">mail@example.com</a></p>
-                </div>
-                <div class="col-md-4">
-                    <p>Created by <a href="https://www.shieldui.com" title="Shield UI" style="color: #4BAFD3;">Shield UI</a> and hosted by <a href="https://www.prepbootstrap.com" title="PrepBootstrap" style="color: #4BAFD3;">PrepBootstrap</a></p>
-                </div>
-                <div class="col-md-4">
-                    <p>
-                        <a class="fa fa-twitter footer-socialicon" target="_blank" href="https://twitter.com/"></a>
-                        <a class="fa fa-facebook footer-socialicon" target="_blank" href="https://www.facebook.com/"></a>
-                        <a class="fa fa-google-plus footer-socialicon" target="_blank" href="https://plus.google.com/"></a>
-                        <a class="fa fa-linkedin footer-socialicon" target="_blank" href="https://plus.google.com/"></a>
-                    </p>
-                </div>
+</div>
 
-            </div>
-        </div>
-    </footer>
 </body>
-</html> ->
+
+{% endblock %}
+

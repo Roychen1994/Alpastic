@@ -1,0 +1,159 @@
+{% extends "websitebase.html" %}
+
+{% block websitebody %}
+<div class="page-header">
+    <blockquote>
+        <p class="lead">历史交易信息</p>
+    </blockquote>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+      <form class="form-inline" method="GET" role="form">
+        <div class="form-group">
+            <label for="lb-sale" class="flable">销售人员</label>
+            <select class="form-control" id="lb-sale" name="salename">
+              <option value=""></option>
+              {% for sale in saleoptions %}
+              <option value="{{ sale.id }}">{{ sale.Username }}</option>
+              {% endfor %}
+            </select>
+
+              <label for="lb-cust" class="flable">顾客</label>
+              <select class="form-control" id="lb-cust" name="custname">
+                <option value=""></option>
+                {% for cust in custoptions %}
+                <option value="{{ cust.id }}">{{ cust.Username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="basic-cstime" class="flable">订单生成时间(开始)</label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-cstime"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                <input name="cstime" type="text" class="form-control" aria-describedby="basic-cstime" jsw="datetimepicker" placeholder="格式:2000-01-01 12:00">
+            </div>
+
+            <label for="basic-cetime" class="flable">订单生成时间(结束)</label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-cetime"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                <input name="cetime" type="text" class="form-control" aria-describedby="basic-cetime" jsw="datetimepicker" placeholder="格式:2000-01-01 12:00">
+            </div>
+        </div>
+
+        <div style="margin-top: 20px">
+            <input class="btn btn-primary" type="submit" name="worktype" value="查询" style="margin-left:10px">
+            <input class="btn btn-primary" type="submit" name="worktype" value="导出">
+        </div>
+
+      </form>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+      <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td>订单ID</td>
+                <td>销售人员姓名</td>
+                <td>订单生成时间</td>
+                <td>客户姓名</td>
+                <td>订单确认时间</td>
+                <td>财务人员</td>
+                <td>确认付款时间</td>
+                <td>发货人</td>
+                <td>出货时间</td>
+                <td>收货时间</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for trade in trade_list %}
+          <tr>
+              <td>{{ trade.Sefflowid }}</td>
+              <td>{{ trade.sefsaleid.Username }}</td>
+              <td>{{ trade.sefcreatetime|date:"Y-m-d H:i:s" }}</td>
+              <td>{{ trade.sefuserid.Username }}</td>
+              <td>{{ trade.sefsubmittime|date:"Y-m-d H:i:s" }}</td>
+              <td>{{ trade.sefpayname }}</td>
+              <td>{{ trade.sefpaytime|date:"Y-m-d H:i:s" }}</td>
+              <td>{{ trade.sefsmname }}</td>
+              <td>{{ trade.sefsmtime|date:"Y-m-d H:i:s" }}</td>
+              <td>{{ trade.SefFinishtime|date:"Y-m-d H:i:s" }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+
+      {% if pagelist %}
+
+          <nav class="mypagination" aria-label="Page navigation">
+              <ul class="pagination">
+                  {% if trade_list.has_previous %}
+                  <li>
+
+                      <a href="?page={{ trade_list.previous_page_number }}&saleid={{ saleid }}&custid={{ custid }}&cstime={{ cstime }}&cetime={{ cetime }}&worktype=查询" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                      </a>
+
+                  </li>
+                  {% else %}
+                  <li class="disabled">
+
+                      <a class="disabled" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                      </a>
+
+                  </li>
+                  {% endif %}
+                  {% for p in pagelist %}
+                  {% if p == trade_list.number  %}
+
+                  <li class="active" ><a href="#">{{ p }}</a></li>
+                  {% else %}
+
+                  <li><a href="?page={{ p }}&saleid={{ saleid }}&custid={{ custid }}&cstime={{ cstime }}&cetime={{ cetime }}&worktype=查询">{{ p }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if trade_list.has_next %}
+                  <li>
+                      <a href="?page={{ trade_list.next_page_number }}&saleid={{ saleid }}&custid={{ custid }}&cstime={{ cstime }}&cetime={{ cetime }}&worktype=查询" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                      </a>
+                  </li>
+                  {% else %}
+                  <li class="disabled">
+                      <a class="disabled" href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                      </a>
+                  </li>
+                  {% endif %}
+              </ul>
+          </nav>
+          {% endif %}
+      </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+    //日期插件
+    $("[jsw='datetimepicker']").datetimepicker({
+    language:'cn',
+    format: 'yyyy-mm-dd hh:ii',//显示格式
+    todayHighlight: 1,//今天高亮
+    //minView: "month",设置只显示到月份
+    startView:2,
+    forceParse: 0,
+    showMeridian: 1,
+    autoclose: 1//选择后自动关闭
+});
+</script>
+
+
+
+{% endblock %}

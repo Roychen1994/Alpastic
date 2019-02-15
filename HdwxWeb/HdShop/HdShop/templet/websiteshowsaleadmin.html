@@ -1,0 +1,203 @@
+{% extends "websitebase.html" %}
+{% block websitebody %}
+
+<div class="page-header">
+    <blockquote>
+        <p class="lead">客户管理</p>
+    </blockquote>
+</div>
+
+{% csrf_token %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">个人信息</h3>
+    </div>
+    <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <dt>用户名</dt>
+                </div>
+                <div class="col-sm-9">
+                    <dd>{{ ths_webuser.Username }}</dd>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <dt>状态</dt>
+                </div>
+                <div class="col-sm-9">
+                    <dd>{{ ths_webuser.Userstatus }}</dd>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <dt>手机号码</dt>
+                </div>
+                <div class="col-sm-9">
+                    <dd>{{ ths_userinfo.Userphone }}</dd>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <dt>微信号</dt>
+                </div>
+                <div class="col-sm-9">
+                    <dd>{{ ths_userinfo.Userwx }}</dd>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <dt>地址</dt>
+                </div>
+                <div class="col-sm-9">
+                    <dd>{{ ths_userinfo.UserAddress }}</dd>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Ta的价格</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <div class="rightp">
+                <button data-toggle="modal" data-target="#addccpModal" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp&nbsp添加价格</button>
+                <button data-toggle="modal" data-target="#delusercp-Modal" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp&nbsp删除所选</button>
+            </div>
+            <thead>
+                <tr>
+                    <td><input type="checkbox" id="allcb"></td>
+                    <td>商品名称</td>
+                    <td>规格</td>
+                    <td>价格</td>
+                </tr>
+            </thead>
+            <tbody id="cptbody">
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">收藏夹</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>id</td>
+                        <td>商品名称</td>
+                        <td>规格</td>
+                        <td>收藏日期</td>
+                    </tr>
+                </thead>
+                <tbody id="custcollect-tbody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<!---------  添加单价modal ------------>
+<div id="addccpModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title">添加单价</h4>
+      </div>
+      <div class="modal-body">
+          <form class="form-horizontal">
+              <div class="form-group">
+                <label for="user-productname" class="col-sm-2 control-label">商品名称</label>
+                <div class="col-sm-10">
+                    <select class="form-control selectpicker" name="user-productname" id="user-productname" data-live-search="true">
+                        <option value=""></option>
+                        {% for com in commodity_options %}
+                            <option value="{{ com.id }}">{{ com.CommName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <div class="form-group">
+              <label for="user-productdetail" class="col-sm-2 control-label">规格</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="user-productdetail" id="user-productdetail">
+                        <option value=""></option>
+                    </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="user-unPrice" class="col-sm-2 control-label" >单价</label>
+                 <div class="col-sm-10">
+                    <input  class="form-control" name="user-unPrice">
+                 </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-primary" id="detail-commit" onclick="setcprice('{{ custid }}')">确认</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<!----------------- 信息模态框 ------------------->
+<div id="infomodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="infomodal_message"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<!----------------- 删除警告模态框 ------------------->
+<div id="delusercp-Modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="delmodal_title" class="modal-title">删除</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger">你确认要删除以下客户单价吗？<strong>删除后不可恢复!</strong></p>
+        <ol id="delcpmodal-ol">
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button id="btn_submitdel" type="button" class="btn btn-danger" onclick="deluserunprice('{{ custid }}')">确认删除</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+{% load static %}
+<script src="{% static "useradmin.js" %}"></script>
+<script>
+freshen_taprice({{ custid }});
+fresh_custcollect({{ custid }});
+</script>
+
+{% endblock %}

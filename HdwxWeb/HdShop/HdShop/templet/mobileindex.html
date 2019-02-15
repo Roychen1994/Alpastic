@@ -1,0 +1,234 @@
+{% extends "mobilebase.html" %}
+{% block mobilebase %}
+    {% load static %}
+    <div class="row mobile-mainrow">
+        <div class="mobile-indexhead">
+            <img src="{% static "weblogo.png" %}">
+        </div>
+        <div class="mobile-search">
+            <form id="form-inline searchform" action="/shop" method="get">
+                <div class="input-group col-xs-offset-1 col-xs-10">
+                    <input type="text" placeholder="关键词" name="search" value="" class="search-input form-control">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default form-control"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </div>
+		    </form>
+            <hr/>
+        </div>
+        <div id="mobile-indexadv">
+            <div id="carousel-adv" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {% for advinfo in advinfo_table %}
+                        {% if forloop.counter0 == 0 %}
+                            <div class="item active">
+                                <img class="mobile-imgadv" src="{{ advinfo.Advimg|cut:"HdWxShop" }}" alt="{{ advinfo.Advtitle }}">
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="item">
+                                <img class="mobile-imgadv" src="{{ advinfo.Advimg|cut:"HdWxShop" }}" alt="{{ advinfo.Advtitle }}">
+                                <div class="carousel-caption">
+                                    ...
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+              <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-adv" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-adv" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="mobile-main">
+            <blockquote class="indexshowinfo">
+                <p><span><strong>服务范围&nbsp/&nbsp</strong></span>设计、加工一体化服务！</p>
+            </blockquote>
+            <div class="row" id="fwfw-row">
+                <div class="col-xs-4 mobile-imagediv">
+                    <img class="mobile-indeximage" src="{% static "indeximg1.jpg" %}">
+                </div>
+                <div class="col-xs-4 mobile-imagediv">
+                    <img class="mobile-indeximage" src="{% static "indeximg2.jpg" %}">
+                </div>
+                <div class="col-xs-4 mobile-imagediv">
+                    <img class="mobile-indeximage" src="{% static "indeximg3.png" %}">
+                </div>
+            </div>
+            <blockquote class="indexshowinfo">
+                <p><span><strong>产品理念&nbsp/&nbsp</strong></span>集成化生产、绿色节能、健康环保。</p>
+            </blockquote>
+            <div class="row" id="cpln-row">
+                <div class="col-xs-6 mobile-imagediv">
+                    <img class="mobile-indeximage" src="{% static "indeximg5.png" %}">
+                </div>
+                <div class="col-xs-6 mobile-imagediv">
+                    <div class="mobile-imagediv">
+                        <img class="mobile-indeximage" src="{% static "indeximg6.png" %}">
+                    </div>
+                    <div class="mobile-imagediv">
+                        <img class="mobile-indeximage" src="{% static "indeximg7.png" %}">
+                    </div>
+                </div>
+            </div>
+            <blockquote class="indexabout">
+                <strong>产品推荐</strong>
+            </blockquote>
+            {% csrf_token %}
+            <div id="p-commend">
+
+            </div>
+            <blockquote class="indexabout">
+                <strong>最新动态</strong>
+            </blockquote>
+            <div id="mobile-indexnews">
+                {% for anews in news_table %}
+                    <div class="mobile-anew"><a href="/news/{{ anews.id }}"><span class="mobile-IndexNewsCls">[{{ anews.Newsclassid }}]</span>{{ anews.Newstitle }}</a></div>
+                {% endfor %}
+            </div>
+            <blockquote class="indexabout">
+                <strong>关于我们</strong>
+            </blockquote>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    公司名称：东莞市厚德木业有限公司<br>
+                    营销中心：东莞市厚街家具大道123号<br>
+                    门市：东莞市厚街镇双岗村旭日路46号<br>
+                    电话：0769-85592948<br>
+                    传真：0769-85915737<br>
+                    手机：188-2032-1073   188-2032-1963<br>
+                    E-mail：Dk@tak-wood.com<br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!----------------- buyModal 模态框 ------------------->
+<div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-sm-5 hidden-xs">
+				<img id="modal-img" class="img-thumbnail" src="" style="width: 460px">
+			</div>
+			<div class="col-sm-7">
+				<p id="p-uprice" class="price"></p>
+                <p id="p-thick"></p>
+                <p id="p-size"></p>
+                <p id="p-protlevel"></p>
+                <p id="p-nmun"></p>
+				<form class="form-inline">
+					<div class="form-group">
+							<label for="productnum" class="control-label">购入数量:</label>
+							<input type="text" class="form-control numinput" id="productnum" value="1">
+					</div>
+				</form>
+			</div>
+		</div>
+        <div id="errorinfo" style="display:none;">
+
+        </div>
+      <div class="modal-footer">
+          <div class="row">
+              <div class="col-sm-4">
+                  <p class="toatl-price"><small>合计:￥&nbsp&nbsp</small><strong id="h3-total" style="color:indianred"></strong></p>
+              </div>
+              <div class="col-sm-8">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                  <button id="btn_addshoppingcart" type="button" dataid="" class="btn btn-primary" onclick="ajax_addshopingcart(this,'buy')">加入购物车</button>
+              </div>
+          </div>
+      </div>
+	 </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="infomodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="infomodal_message"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/website/shoppingcart'">前往购物车</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+<script src="{% static "product.js" %}"></script>
+<script>
+    function get_indexcommend() {
+        $.ajax({
+        url: '/freshen_commend/',
+        type: 'GET',
+        dataType: 'text',
+        success: function (data) {
+            $('#p-commend').html(data)
+        }
+        })
+    }
+
+get_indexcommend();
+
+$('#productnum').bind('input propertychange',total_buymodal);
+
+	function total_buymodal(){
+        try {
+            var tprice = $("#unprice_value").text();
+            var buynum = $('#productnum').val();
+            document.getElementById('h3-total').innerHTML = buynum * tprice;
+        }
+        catch (err) {
+            document.getElementById('h3-total').innerHTML = err
+        }
+    }
+
+    function index_fwfw_animate() {
+        var wsw = window.screen.width;
+        var fwfw_img_docs = $("div#fwfw-row div");
+        var temp_speed = 1000;
+        fwfw_img_docs.css('left','-' + String(wsw) + 'px');
+        fwfw_img_docs.each(function () {
+                $(this).animate({left:"0"},temp_speed);
+                temp_speed -= 200
+            }
+        )
+    }
+
+    function index_cpln_animate() {
+	    var cpln_img_docs = $("div#cpln-row div");
+	    cpln_img_docs.css('display','none');
+        cpln_img_docs.fadeIn("slow")
+    }
+
+window.onload=function () {
+    navfooteractive('nav-indexicon');
+    index_fwfw_animate();
+    index_cpln_animate();
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "wxbase.html" %}
+
+{% block mainbody %}
+{% load static %}
+    <div class="row nav-websitebase">
+        <div class="col-sm-2">
+            <div class="well">
+                <ul id="website-leftul" class="nav nav-list">
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-10 nav-websitebase">
+            {% block websitebody %}
+            {% endblock %}
+	    </div>
+    </div>
+
+<script src="{% static "product.js" %}"></script>
+<link href="{% static "mysite.css" %}" rel="stylesheet">
+<script>
+    getwebsite_leftinfo()
+</script>
+
+
+{% endblock %}

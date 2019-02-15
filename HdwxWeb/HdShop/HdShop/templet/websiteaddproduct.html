@@ -1,0 +1,85 @@
+{% extends "websitebase.html" %}
+
+{% block websitebody %}
+
+<div class="page-header">
+  <h2>添加商品信息</h2>
+</div>
+
+<ol class="breadcrumb">
+  <li><a href="/website/adminproduct/">商品管理</a></li>
+  <li id="productid" class="active">添加商品</li>
+</ol>
+
+
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="productclass" class="control-label col-sm-2">商品类别</label>
+            <div class="col-sm-4">
+                <select id="productclass" name="productclass" class="form-control">
+                    {% for cls in classes %}
+                        <option value="{{ cls.id }}">{{ cls.CclassName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-default" data-toggle="modal" data-target="#addpclsmodal" type="button" >
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="form-group">
+            <label for="pname" class="control-label col-sm-2">商品名称</label>
+            <div class="col-sm-8">
+                <input id="pname" name="pname"  class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pimg" class="control-label col-sm-2">商品图片</label>
+            <input name="pimg" type="file">
+            <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>&nbsp&nbsp上传</button> -->
+        </div>
+
+        <div class="form-group">
+            <label for="productclass" class="control-label col-sm-2">详情图片</label>
+            <input name="pinfo" type="file">
+            <!-- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>&nbsp&nbsp上传</button> -->
+        </div>
+
+        <div class="rightp">
+            <button type="submit" class="btn btn-primary" style="margin-left:10px"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>&nbsp&nbsp保存信息</button>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+<!----------------- 增加类型模态框 ------------------->
+<div id="addpclsmodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="addpcls-input">类型</label>
+                <input id="addpcls-input" class="form-control">
+            </div>
+        </form>
+      <div class="modal-footer">
+        <button id="btn_submitaddpcls" type="button" class="btn btn-primary" onclick="addpcls()">保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+
+{% endblock %}

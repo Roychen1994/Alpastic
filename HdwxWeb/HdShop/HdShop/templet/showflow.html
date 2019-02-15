@@ -1,0 +1,280 @@
+{% extends "websitebase.html" %}
+
+{% block websitebody %}
+
+<div class="page-header">
+    <blockquote>
+        <p class="lead">订单管理</p>
+    </blockquote>
+</div>
+
+<ol class="breadcrumb">
+  <li><a href="/website/adminflow/">订单管理</a></li>
+  <li id="flowid" flowid="{{ flowinfo.id }}" class="active">{{ flowinfo.flowid }}</li>
+</ol>
+
+<p id="p-username" userid="{{ flowinfo.SfUserid.id }}" class="lead"><small>客户名称:</small>{{ flowinfo.SfUserid.Username }}</p>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+      <p>订单号:{{ flowinfo.flowid }}<small class="rightp">购买日期:  {{ flowinfo.SfCreatetime|date:"Y-m-d H:i:s" }}</small></p>
+  </div>
+  <!-- Table -->
+  <table class="table">
+        <tr>
+            <td class="hidden-xs">图片</td>
+            <td>商品名称</td>
+            <td>数量</td>
+            <td>总价格</td>
+            <td>操作</td>
+        </tr>
+        {% for aproductinfo in productlist %}
+        <tr class="data_tr">
+            <td class="hidden-xs"><img class="md-image" src="{{ aproductinfo.shoppinginfoid.Commimg|cut:"HdWxShop" }}" alt="{{ aproductinfo.shoppinginfoid }}" class="img-rounded"></td>
+            <td><a href="/shop/product/{{ aproductinfo.shoppingdetailid.id }}">{{ aproductinfo.shoppinginfoid }}</a></td>
+            <td>{{ aproductinfo.sfpnum }}</td>
+            <td class="fpsum">￥{{ aproductinfo.sfpsumprice }}</td>
+            <td><button data-toggle="modal" data-target="#xModal" type="button" class="btn btn-default" data-worktype="mod" data-fpid="{{ aproductinfo.id }}" data-pinfoid="{{ aproductinfo.shoppinginfoid.id }}" data-infoname="{{ aproductinfo.shoppinginfoid.CommName }}"
+            data-detailname="{{ aproductinfo.shoppingdetailid }}" data-spnum="{{ aproductinfo.sfpnum }}" data-sumprice="{{ aproductinfo.sfpsumprice }}" data-spunit="{{ aproductinfo.sfpUnit }}"
+            data-spthick="{{ aproductinfo.sfpthick }}"  data-spsize="{{ aproductinfo.sfpSize }}" data-protlevel="{{ aproductinfo.sfp_Protlevel }}"  data-unprice="{{ aproductinfo.sfpunPrice }}"
+            data-detailid="{{ aproductinfo.shoppingdetailid.id }}" data-unmun="{{ aproductinfo.sfpUnmun }}" data-imgurl="{{ aproductinfo.shoppinginfoid.Commimg|cut:"HdWxShop" }}">修改</button>&nbsp&nbsp
+            <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#delModal" type="button" class="btn btn-default" data-fpid="{{ aproductinfo.id }}">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp&nbsp删除
+            </button>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if cgorder %}
+        <tr>
+            <td class="hidden-xs"></td>
+            <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#xModal" data-worktype="add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加商品</button></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endif %}
+  </table>
+
+  <div class="panel-footer">
+     <form method="POST" role="form">
+        {% csrf_token %}
+        <div class="row">
+           <div class="col-sm-9">
+           <p>地址:  {{ flowinfo.SfAddress }}</p>
+           <p>备注:  {{ flowinfo.SfRemark }}</p>
+               <p>订单状态:<strong>{{ flowinfo.get_Sfstatus_display }}</strong></p>
+             <div class="form-inline">
+               <label for="input_Carryprice" >邮费:</label>
+               <input type="text" class="form-control" id="input_Carryprice" name="Carryprice" value="{{ flowinfo.SfCarryPrice }}">
+
+                <select id="iscarryprice" class="form-control" name="iscarryprice">
+                    {% if iscarryprice %}
+                        <option value="1" selected>已付款</option>
+                        <option value="">未付</option>
+                    {% else %}
+                        <option value="" selected>未付款</option>
+                        <option value="1">已付</option>
+                    {% endif %}
+                </select>
+
+                <button type="button" class="btn btn-primary" onclick="changecarryprice()"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp&nbsp确认</button>
+             </div>
+         </div>
+         <div class="col-sm-3">
+             <h3><small>总价:&nbsp&nbsp&nbsp&nbsp</small><strong class="price" id="total">{{ total }}</strong><small>(含邮费)</small></h3>
+             {% if isrule %}
+             <button type="button" class="btn btn-default" onclick="submit_sure(this,'确认操作？','请确认操作。')">
+                 {% if flowinfo.Sfstatus == 1 %}
+                 提交订单
+                 {% endif %}
+                 {% if flowinfo.Sfstatus == 2 %}
+                 审核通过
+                 {% endif %}
+                 {% if flowinfo.Sfstatus == 4 %}
+                 已付款
+                 {% endif %}
+                 {% if flowinfo.Sfstatus == 5 %}
+                 已出货
+                 {% endif %}
+             </button>
+             {% if flowinfo.Sfstatus == 2 %}
+             <br>
+                 <button type="button" class="btn btn-danger" onclick="auditerror()" style="margin-top:10px;">审核不通过</button>
+             {% endif %}
+             {% else %}
+             <button type="submit" class="btn btn-default" disabled="{{ isrule }}">
+                 {% if flowinfo.Sfstatus == 1 %}
+                 提交订单
+                 {% endif %}
+                 {% if flowinfo.Sfstatus == 2 %}
+                 审核通过
+                 {% endif %}
+             </button>
+             {% endif %}
+         </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!----------------- xModal 模态框 ------------------->
+<div class="modal fade" id="xModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-sm-5">
+				<img id="modal-img" class="img-thumbnail" src="" style="width: 460px">
+			</div>
+			<div class="col-sm-7">
+             <form method="post" >
+                <div class="form-group">
+                    {% if cgorder %}
+                        <input id="fp-change" value="change" type="hidden">
+                        <label for="s-productname" class="control-label">商品名称</label>
+                        <select id="s-productname" class="form-control">
+                        </select>
+                        <label for="s-detail" class="control-label">规格</label>
+                        <select id="s-detail" class="form-control">
+                        </select>
+                    {% else %}
+                    <input id="fp-change" value="change" type="hidden">
+                        <label for="s-productname" class="control-label">商品名称</label>
+                        <select id="s-productname" class="form-control" disabled="">
+                        </select>
+                        <label for="s-detail" class="control-label">规格</label>
+                        <select id="s-detail" class="form-control" disabled="">
+                        </select>
+                    {% endif %}
+
+                    {% if cgunprie %}
+                        <label for="p-unprice">单价:</label>
+                        <input type="text" class="form-control" id="p-unprice">
+                    {% else %}
+                        <label for="p-unprice">单价:</label>
+                        <input type="text" class="form-control" id="p-unprice" disabled="">
+                    {% endif %}
+
+                    {% if cgorder %}
+                        <label for="p-thick">厚度:</label>
+                        <input type="text" class="form-control" id="p-thick">
+                        <label for="p-size">尺寸:</label>
+                        <input type="text" class="form-control" id="p-size">
+                        <label for="p-protlevel">环保等级:</label>
+                        <input type="text" class="form-control" id="p-protlevel">
+                        <label for="p-nmun">每件数量:</label>
+                        <input type="text" class="form-control" id="p-nmun">
+                        <label for="productnum" class="control-label">购入数量:</label>
+                        <input type="text" class="form-control" id="productnum">
+                    {% else %}
+                        <label for="p-thick">厚度:</label>
+                        <input type="text" class="form-control" id="p-thick" disabled="">
+                        <label for="p-size">尺寸:</label>
+                        <input type="text" class="form-control" id="p-size" disabled="">
+                        <label for="p-protlevel">环保等级:</label>
+                        <input type="text" class="form-control" id="p-protlevel" disabled="">
+                        <label for="p-nmun">每件数量:</label>
+                        <input type="text" class="form-control" id="p-nmun" disabled="">
+                        <label for="productnum" class="control-label">购入数量:</label>
+                        <input type="text" class="form-control" id="productnum" disabled="">
+                    {% endif %}
+                </div>
+                 <div id="errorinfo" style="display:none;">
+
+                 </div>
+             </form>
+			</div>
+		</div>
+      <div class="modal-footer">
+			<h3><small>合计:</small><strong id="h3-total" style="color:indianred"></strong></h3>
+        	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        	<button id="btn_submitxModal" type="button" class="btn btn-primary" onclick="submitflowproduct()">保存</button>
+      </div>
+	 </div>
+    </div>
+  </div>
+</div>
+
+
+<!----------------- 删除警告模态框 ------------------->
+<div id="delModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="delmodal_title" class="modal-title">删除</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger">你确认要删除该订单的商品吗？<strong>删除后不可恢复!</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button id="btn_submitdel" type="button" class="btn btn-danger">确认删除</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+
+<!----------------- 信息模态框 ------------------->
+<div id="infomodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="infomodal_title" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="infomodal_message"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+	</div>
+  </div>
+</div>
+
+
+<script>
+	$('#productnum').bind('input propertychange',total_changemodal);
+    $('#p-unprice').bind('input propertychange',total_changemodal);
+    $('#input_Carryprice').bind('input propertychange',fresh_ordertotal);
+
+
+	function total_changemodal(){
+        try {
+            var tprice = $("#p-unprice").val();
+            var buynum = $('#productnum').val();
+            document.getElementById('h3-total').innerHTML = buynum * tprice;
+        }
+        catch (err) {
+            document.getElementById('h3-total').innerHTML = NaN
+        }
+    }
+
+    function fresh_ordertotal(){
+	    var carryprice = Number($("#input_Carryprice").val());
+	    var dom_iscarryprice = $("#iscarryprice").val();
+        var total = 0;
+        var doms_fpsum = document.getElementsByClassName("fpsum");
+        for(var i=0;i<doms_fpsum.length;i++){
+            total += Number(doms_fpsum[i].innerText.replace('￥',''));
+        }
+        if(!dom_iscarryprice){
+            $('#total').text(total + carryprice)
+        }
+    }
+
+
+</script>
+
+{% endblock %}
+

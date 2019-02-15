@@ -1,0 +1,63 @@
+{% extends "mobilebase.html" %}
+{% block mobilebase %}
+<body>
+
+<div id="mobile-head">
+    <div class="mobile-headrow">
+        <div class="mobile-headleft">
+            <a onClick="javaScript:history.go(-1)"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+        </div>
+        <div class="mobile-headtitle">
+            {{ title }}
+        </div>
+        <div class="mobile-headend">
+        </div>
+    </div>
+</div>
+
+<div class="row mobile-navline">
+    <div class="panel panel-default">
+        <div class="panel-body" id="mobile-navpanel">
+            <div class="col-xs-3 person-nav-div">
+                <a href="/website/collect/">
+                    <div class="person-nav-icon">
+                        <i class="icon iconfont icon-ico_preference"></i>
+                    </div>
+                    <p>收藏夹</p>
+                </a>
+            </div>
+            <div class="col-xs-3 person-nav-div">
+                <a href="/website/shoppingcart/">
+                    <div class="person-nav-icon">
+                        <i class="icon iconfont icon-ico_expressInfo"></i>
+                    </div>
+                </a>
+                <p>购物车</p>
+            </div>
+            <div class="col-xs-3 person-nav-div">
+                <a href="/website/shoppingflow/">
+                    <div class="person-nav-icon">
+                        <i class="icon iconfont icon-ico_signed"></i>
+                    </div>
+                </a>
+                <p>我的订单</p>
+            </div>
+            <div class="col-xs-3 person-nav-div">
+                <a href="/website/history/">
+                    <div class="person-nav-icon">
+                        <i class="icon iconfont icon-ico_serviceQuery"></i>
+                    </div>
+                    <p>历史信息</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="mobilebase-info">
+        {% block mpbase %}
+        {% endblock %}
+    </div>
+
+</body>
+{% endblock %}

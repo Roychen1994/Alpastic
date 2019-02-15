@@ -1,0 +1,124 @@
+{% extends "mobilepersonalbase.html" %}
+{% block mpbase %}
+
+<div class="row">
+    <div id="historyselect">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" method="GET" role="form">
+                    <div class="form-group">
+                        <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if selecttime == '1' %}
+                                    最近90天的历史记录
+                                {% elif  selecttime == '2' %}
+                                    最近180天的历史记录
+                                {% elif selecttime == '3'  %}
+                                    最近365天的历史记录
+                                {% elif selecttime == 'all'  %}
+                                    全部历史记录
+                                {% else %}
+                                    最近30天的历史记录
+                                {% endif %}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/website/history/">最近30天的历史记录</a></li>
+                                <li><a href="/website/history/?selecttime=1">最近90天的历史记录</a></li>
+                                <li><a href="/website/history/?selecttime=2">最近180天的历史记录</a></li>
+                                <li><a href="/website/history/?selecttime=3">最近365天的历史记录</a></li>
+                                <li><a href="/website/history/?selecttime=all">全部历史记录</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-default" type="button" onclick="$('#history-search').fadeIn();">高级搜索</button>
+                    </div>
+                    <div id="history-search" class="form-group" style="display:none;margin-top:18px;">
+                        <label for="basic-cstime" class="flable">订单生成时间(开始)</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-cstime"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                            {% if cstime %}
+                                <input name="cstime" type="text" class="form-control" aria-describedby="basic-cstime" jsw="datetimepicker" placeholder="格式:2000-01-01 12:00" value="{{ cstime }}">
+                            {% else %}
+                                <input name="cstime" type="text" class="form-control" aria-describedby="basic-cstime" jsw="datetimepicker" placeholder="格式:2000-01-01 12:00">
+                            {% endif %}
+                        </div>
+
+                        <label for="basic-cetime" class="flable">订单生成时间(结束)</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-cetime"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                            {% if cetime %}
+                                <input name="cetime" type="text" class="form-control" aria-describedby="basic-cetime" jsw="datetimepicker" placeholder="格式:2000-01-01 12:00" value="{{ cetime }}">
+                            {% else %}
+                                <input name="cetime" type="text" class="form-control" aria-describedby="basic-cetime" jsw="datetimepicker" placeholder="格式:2000-01-01 12:00">
+                            {% endif %}
+                        </div>
+                        <input class="btn btn-primary mobile-linebutton" type="submit" name="worktype" value="查询">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+        <div id="historyinfo">
+            {% for aflow in historyflow_list %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p>订单号:{{ myflow.flowinfo.Sefflowid }}</p>
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <td class="hidden-xs">图片</td>
+                            <td>商品名称</td>
+                            <td>数量</td>
+                            <td>总价格</td>
+                        </tr>
+                    {% for aproductinfo in aflow.productinfo %}
+                        <tr class="data_tr">
+                            <td class="hidden-xs"><img src="{{ aproductinfo.sefproductid.Commimg|cut:"HdWxShop" }}" alt="{{ aproductinfo.SefName }}" class="img-rounded md-image"></td>
+                            <td><a href="/shop/product/{{ aproductinfo.sefdetailid.id }}">{{ aproductinfo.SefName }}</a></td>
+                            <td>{{ aproductinfo.SefNum }}</td>
+                            <td>￥{{ aproductinfo.SefPrice }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+
+                    <div class="panel-footer">
+                       <div class="row">
+                          <div class="col-sm-9">
+                              <p><span>地址:</span>  {{ aflow.flowinfo.sefaddress }}</p>
+                              <p><span>备注:</span>  {{ aflow.flowinfo.sefmark }}</p>
+                              <p><span>购买时间:</span> {{ aflow.flowinfo.sefcreatetime|date:"Y-m-d H:i:s" }}</p>
+                              <p><span>收货时间:</span> {{ aflow.flowinfo.SefFinishtime|date:"Y-m-d H:i:s" }}</p>
+                          </div>
+                       </div>
+                      </div>
+                </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    //日期插件
+    $("[jsw='datetimepicker']").datetimepicker({
+    language:'cn',
+    format: 'yyyy-mm-dd hh:ii',//显示格式
+    todayHighlight: 1,//今天高亮
+    //minView: "month",设置只显示到月份
+    startView:2,
+    forceParse: 0,
+    showMeridian: 1,
+    autoclose: 1//选择后自动关闭
+});
+</script>
+
+
+{% endblock %}
+
+
+
+
